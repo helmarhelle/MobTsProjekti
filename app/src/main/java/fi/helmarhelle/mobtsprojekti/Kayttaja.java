@@ -1,15 +1,17 @@
 package fi.helmarhelle.mobtsprojekti;
 
+import androidx.annotation.NonNull;
+
 public class Kayttaja {
 
     private int ika;
-    private int paino;
-    private int pituus;
+    private int pituusCM;
+    private float painoKG;
 
-    public Kayttaja(int ika, int paino, int pituus) {
+    public Kayttaja(int ika, int pituusCM, float painoKG) {
         this.ika = ika;
-        this.paino = paino;
-        this.pituus = pituus;
+        this.pituusCM = pituusCM;
+        this.painoKG = painoKG;
     }
 
     //Getterit ja setterit
@@ -21,28 +23,29 @@ public class Kayttaja {
         this.ika = ika;
     }
 
-    public int getPaino() {
-        return paino;
+    public float getPainoKG() {
+        return painoKG;
     }
 
-    public void setPaino(int paino) {
-        this.paino = paino;
+    public void setPainoKG(int painoKG) {
+        this.painoKG = painoKG;
     }
 
-    public int getPituus() {
-        return pituus;
+    public int getPituusCM() {
+        return pituusCM;
     }
 
-    public void setPituus(int pituus) {
-        this.pituus = pituus;
+    public void setPituusCM(int pituusCM) {
+        this.pituusCM = pituusCM;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Kayttaja{" +
                 "ika=" + ika +
-                ", paino=" + paino +
-                ", pituus=" + pituus +
+                ", paino=" + painoKG +
+                ", pituus=" + pituusCM +
                 '}';
     }
 }

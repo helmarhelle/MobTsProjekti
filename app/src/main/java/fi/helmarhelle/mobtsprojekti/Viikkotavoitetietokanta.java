@@ -89,60 +89,99 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri iälle
+     * Getteri tämän viikon unitavoitteelle
      * @return palauttaa kokonaisluvun
      */
-    public int haeIka() {
+    public int haeTamanViikonUniTavoite() {
 
-        String hakuLauseke_SQL = "SELECT IKA FROM " + TIETOKANNAN_NIMI;
-        int haettuIka;
+        String hakuLauseke_SQL = "SELECT UNI FROM " + TIETOKANNAN_NIMI;
+        int haettuTavoite;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
         kursori.moveToLast();
-        haettuIka = kursori.getInt(0);
+        haettuTavoite = kursori.getInt(0);
         kursori.close();
         tietokanta.close();
-        return haettuIka;
+        return haettuTavoite;
     }
     /**
-     * Getteri pituudelle
+     * Getteri tämän viikon liikuntatavoitteelle
      * @return palauttaa kokonaisluvun
      */
-    public int haePituus () {
+    public int haeTamanViikonLiikuntaTavoite() {
 
-        String hakuLauseke_SQL = "SELECT PITUUS FROM " + TIETOKANNAN_NIMI;
-        int haettuPituus;
+        String hakuLauseke_SQL = "SELECT LIIKUNTA FROM " + TIETOKANNAN_NIMI;
+        int haettuTavoite;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
         kursori.moveToLast();
-        haettuPituus = kursori.getInt(0);
+        haettuTavoite = kursori.getInt(0);
         kursori.close();
         tietokanta.close();
-        return haettuPituus;
+        return haettuTavoite;
     }
     /**
-     * Getteri painolle
-     * @return palauttaa liukuluvun
+     * Getteri tämän viikon ulkonasyömistavoitteelle
+     * @return palauttaa kokonaisluvun
      */
-    public float haePaino () {
+    public int haeTamanViikonUlkonasyonnitTavoite() {
 
-        String hakuLauseke_SQL = "SELECT PAINO FROM " + TIETOKANNAN_NIMI;
-        float haettuPaino;
+        String hakuLauseke_SQL = "SELECT ULKONASYONNIT FROM " + TIETOKANNAN_NIMI;
+        int haettuTavoite;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
         kursori.moveToLast();
-        haettuPaino = kursori.getFloat(0);
+        haettuTavoite = kursori.getInt(0);
         kursori.close();
         tietokanta.close();
-        return haettuPaino;
+        return haettuTavoite;
+    }
+
+    /**
+     * Getteri tämän viikon lenkkien pituustavoitteelle
+     * @return palauttaa kokonaisluvun
+     */
+    public int haeTamanViikonLenkkiTavoite() {
+
+        String hakuLauseke_SQL = "SELECT LENKKI FROM " + TIETOKANNAN_NIMI;
+        int haettuTavoite;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuTavoite = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuTavoite;
+    }
+    /**
+     * Getteri tämän viikon salitreenien tavoitemäärälle
+     * @return palauttaa kokonaisluvun
+     */
+    public int haeTamanViikonSaliTavoite() {
+
+        String hakuLauseke_SQL = "SELECT SALI FROM " + TIETOKANNAN_NIMI;
+        int haettuTavoite;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuTavoite = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuTavoite;
     }
 }

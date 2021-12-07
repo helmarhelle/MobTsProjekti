@@ -40,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else {
             Log.d("Viikkotavoitetietokanta", "Löytyi!");
-            Log.d("Viikkotavoitetietokanta", "Ikä: " + kayttajatietokanta.haeIka());
-            Log.d("Viikkotavoitetietokanta", "Pituus: " + kayttajatietokanta.haePituus() + " cm");
-            Log.d("Viikkotavoitetietokanta", "Paino: " + kayttajatietokanta.haePaino() + " Kg");
+            Log.d("Viikkotavoitetietokanta", "Unitavoite: " + viikkotavoitetietokanta.haeTamanViikonUniTavoite() + " h");
+            Log.d("Viikkotavoitetietokanta", "Liikuntatavoite: " + viikkotavoitetietokanta.haeTamanViikonLiikuntaTavoite() + " Km");
+            Log.d("Viikkotavoitetietokanta", "Ulkonasyöntitavoite: " + viikkotavoitetietokanta.haeTamanViikonUlkonasyonnitTavoite() + " Kpl");
+            Log.d("Viikkotavoitetietokanta", "Lenkkitavoite: " + viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite() + " Km");
+            Log.d("Viikkotavoitetietokanta", "Salikäyntitavoite: " + viikkotavoitetietokanta.haeTamanViikonSaliTavoite()+ " Kpl");
 
         }
     }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MobTsProjekti</string>
+
+    <!--Käyttäjänasetus-->
+    <string name="kayttajantiedot_otsikko">Käyttäjän tiedot</string>
+    <string name="kayttajantiedot_ika">Kuinka vanha olet?</string>
+    <string name="kayttajantiedot_pituus">Anna pituutesi (cm)</string>
+    <string name="kayttajantiedot_paino">Paljonko painat? (Kg)</string>
+    <string name="kayttajantiedot_tallennus">Tallenna</string>
 </resources>

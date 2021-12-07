@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".KayttajanTiedotActivity">
+
+    <TextView
+        android:id="@+id/otsikkoView"
+        android:layout_width="295dp"
+        android:layout_height="42dp"
+        android:text="@string/kayttajantiedot_otsikko"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002" />
+
+    <EditText
+        android:id="@+id/ikaView"
+        android:layout_width="256dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/kayttajantiedot_ika"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/otsikkoView"
+        app:layout_constraintTop_toBottomOf="@+id/otsikkoView" />
+
+    <EditText
+        android:id="@+id/pituusView"
+        android:layout_width="256dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/kayttajantiedot_pituus"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/otsikkoView"
+        app:layout_constraintTop_toBottomOf="@+id/ikaView" />
+
+    <EditText
+        android:id="@+id/painoView"
+        android:layout_width="256dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/kayttajantiedot_paino"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/otsikkoView"
+        app:layout_constraintTop_toBottomOf="@+id/pituusView" />
+
+    <Button
+        android:id="@+id/tallennusButton"
+        android:layout_width="189dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/kayttajantiedot_tallennus"
+        app:layout_constraintEnd_toEndOf="@+id/painoView"
+        app:layout_constraintTop_toBottomOf="@+id/painoView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

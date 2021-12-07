@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else {
             Log.d("Käyttäjätietokanta", "Löytyi!");
+            Log.d("Käyttäjätietokanta", "Ikä: " + kayttajatietokanta.haeIka());
+            Log.d("Käyttäjätietokanta", "Pituus: " + kayttajatietokanta.haePituus() + " cm");
+            Log.d("Käyttäjätietokanta", "Paino: " + kayttajatietokanta.haePaino() + " Kg");
         }
     }
 

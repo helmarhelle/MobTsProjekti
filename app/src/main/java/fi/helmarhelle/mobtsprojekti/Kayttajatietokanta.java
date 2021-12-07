@@ -53,11 +53,7 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         sisalto.put(PAINO_SARAKE, kayttaja.getPainoKG());
 
         long insert = tietokanta.insert(TIETOKANNAN_NIMI, null, sisalto);
-        if (insert == -1) {
-            return false;
-        }else {
-            return true;
-        }
+        return insert != -1;
     }
 
     public boolean onkoTietokantaa () {
@@ -77,5 +73,53 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
             tietokanta.close();
             return false;
         }
+    }
+
+    public int haeIka() {
+
+        String hakuLauseke_SQL = "SELECT IKA FROM " + TIETOKANNAN_NIMI;
+        int haettuIka;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuIka = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuIka;
+    }
+
+    public int haePituus () {
+
+        String hakuLauseke_SQL = "SELECT PITUUS FROM " + TIETOKANNAN_NIMI;
+        int haettuPituus;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuPituus = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuPituus;
+    }
+
+    public float haePaino () {
+
+        String hakuLauseke_SQL = "SELECT PAINO FROM " + TIETOKANNAN_NIMI;
+        float haettuPaino;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuPaino = kursori.getFloat(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuPaino;
     }
 }

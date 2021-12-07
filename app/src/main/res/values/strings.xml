@@ -10,4 +10,12 @@
 
     <!--Tavoitteenasetus-->
     <string name="tavoitteenasetus_otsikko">Aseta tämän viikon tavoitteesi</string>
+    <string name="tavoitteenasetus_uni">Montako tuntia aiot nukkua yössä?</string>
+    <string name="tavoitteenasetus_liikunta">Montako kilometriä aiot kävellä?</string>
+    <string name="tavoitteenasetus_ravinto">Montako kertaa aiot syödä ulkona?</string>
+    <string name="tavoitteenasetus_lenkki_switch">Aiotko lenkkeillä?</string>
+    <string name="tavoitteenasetus_lenkki_tieto">Montako kilometriä?</string>
+    <string name="tavoitteenasetus_sali_switch">Aiotko käydä salilla?</string>
+    <string name="tavoitteenasetus_sali_tieto">Montako kertaa?</string>
+    <string name="tavoitteenasetus_tallennus">Tallenna</string>
 </resources>

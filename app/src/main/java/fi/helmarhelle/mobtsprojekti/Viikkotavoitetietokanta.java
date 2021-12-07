@@ -9,33 +9,35 @@ import androidx.annotation.Nullable;
 import java.time.LocalDateTime;
 
 /**
- * @author  Reima
+ * @author Reima
  * @version 7.12.2021
- * Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.
+ * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
  *
  */
 
-public class Kayttajatietokanta extends SQLiteOpenHelper {
+public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
 
     //Vakiot
-    private final String TIETOKANNAN_NIMI = "KAYTTAJA";
+    private final String TIETOKANNAN_NIMI = "TAVOITE";
     private final String ID = "ID";
 
     private final String PAIVA_SARAKE = "PAIVA";
     private final String KUUKAUSI_SARAKE = "KUUKAUSI";
     private final String VUOSI_SARAKE = "VUOSI";
-    private final String IKA_SARAKE = "IKA";
-    private final String PITUUS_SARAKE = "PITUUS";
-    private final String PAINO_SARAKE = "PAINO";
+    private final String UNI_SARAKE = "UNI";
+    private final String LIIKUNTA_SARAKE = "LIIKUNTA";
+    private final String ULKONASYONNIT_SARAKE = "ULKONASYONNIT";
+    private final String LENKKI_SARAKE = "LENKKI";
+    private final String SALI_SARAKE = "SALI";
 
-    public Kayttajatietokanta (@Nullable Context context) {
-        super(context, "kayttaja.db", null, 1);
+    public Viikkotavoitetietokanta (@Nullable Context context) {
+        super(context, "tavoite.db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + IKA_SARAKE + " INTEGER, " + PITUUS_SARAKE + " INTEGER, " + PAINO_SARAKE + " REAL)";
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + UNI_SARAKE + " INTEGER, " + LIIKUNTA_SARAKE + " INTEGER, " + ULKONASYONNIT_SARAKE + " INTEGER, " + LENKKI_SARAKE + " INTEGER, " + SALI_SARAKE + " INTEGER)";
 
         db.execSQL(taulunLuontiLause_SQL);
     }
@@ -45,7 +47,7 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
 
     }
 
-    public boolean lisaaTiedot (Kayttaja kayttaja) {
+    public boolean lisaaTiedot (Viikkotavoite viikkotavoite) {
 
         SQLiteDatabase tietokanta = this.getWritableDatabase();
         ContentValues sisalto = new ContentValues();
@@ -53,9 +55,11 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         sisalto.put(PAIVA_SARAKE, LocalDateTime.now().getDayOfMonth());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
-        sisalto.put(IKA_SARAKE, kayttaja.getIka());
-        sisalto.put(PITUUS_SARAKE, kayttaja.getPituusCM());
-        sisalto.put(PAINO_SARAKE, kayttaja.getPainoKG());
+        sisalto.put(UNI_SARAKE, viikkotavoite.getUniH());
+        sisalto.put(LIIKUNTA_SARAKE, viikkotavoite.getLiikuntaKM());
+        sisalto.put(ULKONASYONNIT_SARAKE, viikkotavoite.getUlkonaSyonnitKPL());
+        sisalto.put(LENKKI_SARAKE, viikkotavoite.getLenkitKM());
+        sisalto.put(SALI_SARAKE, viikkotavoite.getSaliKaynnitKPL());
 
         long insert = tietokanta.insert(TIETOKANNAN_NIMI, null, sisalto);
         return insert != -1;

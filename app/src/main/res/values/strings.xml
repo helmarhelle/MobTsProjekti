@@ -7,4 +7,7 @@
     <string name="kayttajantiedot_pituus">Anna pituutesi (cm)</string>
     <string name="kayttajantiedot_paino">Paljonko painat? (Kg)</string>
     <string name="kayttajantiedot_tallennus">Tallenna</string>
+
+    <!--Tavoitteenasetus-->
+    <string name="tavoitteenasetus_otsikko">Aseta tämän viikon tavoitteesi</string>
 </resources>

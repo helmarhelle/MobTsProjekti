@@ -18,4 +18,21 @@
     <string name="tavoitteenasetus_sali_switch">Aiotko käydä salilla?</string>
     <string name="tavoitteenasetus_sali_tieto">Montako kertaa?</string>
     <string name="tavoitteenasetus_tallennus">Tallenna</string>
+
+    <!--All the string resources come here including Questions and title -->
+    <string name="correct"><b>CORRECTNESS IS</b> \n
+                           <b>%1$d</b> OUT OF 6</string>
+    <string name="true_text">kyllä</string>
+    <string name="false_text">ei</string>
+    <string name="correct_answer">That\'s correct</string>
+    <string name="wrong_answer">That\'s incorrect</string>
+    <string name="a">Nukuitko tarpeeksi?</string>
+    <string name="b">Söitkö terveellisesti?</string>
+    <string name="c">Liikuitko tänään tarpeeksi?</string>
+    <string name="d"></string>
+    <string name="e"></string>
+    <string name="f"></string>
+    <string name="next_text">seuraava</string>
+    <string name="prev_text">aikaisempi</string>
+
 </resources>

@@ -12,15 +12,16 @@ import java.util.Calendar;
 
 /**
  * @author Reima
- * @version 7.12.2021
+ * @version 12.12.2021
+ * @since 9.12.2021
  * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
  *
  */
 
-public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
+public class Paivalomaketietokanta extends SQLiteOpenHelper {
 
     //Vakiot
-    private final String TIETOKANNAN_NIMI = "TAVOITE";
+    private final String TIETOKANNAN_NIMI = "PAIVALOMAKE";
     private final String ID = "ID";
 
     private final String PAIVA_SARAKE = "PAIVA";
@@ -33,8 +34,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     private final String LENKKI_SARAKE = "LENKKI";
     private final String SALI_SARAKE = "SALI";
 
-    public Viikkotavoitetietokanta (@Nullable Context context) {
-        super(context, "tavoite.db", null, 1);
+    public Paivalomaketietokanta (@Nullable Context context) {
+        super(context, "Paivalomake.db", null, 1);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
 
     }
 
-    public boolean lisaaTiedot (Viikkotavoite viikkotavoite) {
+    public boolean lisaaTiedot (PaivaLomake paivaLomake) {
 
         SQLiteDatabase tietokanta = this.getWritableDatabase();
         ContentValues sisalto = new ContentValues();
@@ -59,6 +60,9 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         sisalto.put(VUODENPAIVA_SARAKE, LocalDateTime.now().getDayOfYear());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
+        if (paivaLomake.isNukuttuTarpeeksi()) {
+
+        }
         sisalto.put(UNI_SARAKE, viikkotavoite.getUniH());
         sisalto.put(LIIKUNTA_SARAKE, viikkotavoite.getLiikuntaKM());
         sisalto.put(ULKONASYONNIT_SARAKE, viikkotavoite.getUlkonaSyonnitKPL());
@@ -70,29 +74,29 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * <p>tarkistaa, onko tietokannassa tavoitetta kuluvalle viikolle.</p>>
-     * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpäivä-sarakkeen ja vertaamalla sitä tähän päivään siten, että tiedon tulee olla max. 6 päivää vanhaa.</p>
-     * @return Onko tavoitetta tälle viikolle vai ei.
+     * <p>Tarkistaa, onko tietokannassa lomake talle paivalle.</p>
+     * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpaiva-sarakkeen ja vertaamalla sita tahan paivaan siten, etta tiedon tulee olla merkattu samana paivana.</p>
+     * @return Onko lomaketta tälle paivalle vai ei.
      */
-    public boolean onkoTavoitettaKuluvalleViikolle () {
+    public boolean onkoLomakettaTallePaivalle () {
 
-        String hakuLauseke_SQL = "SELECT VUODENPAIVA FROM " + TIETOKANNAN_NIMI;
+        String hakuLauseke_SQL = "SELECT VUODENPAIVA, VUOSI FROM " + TIETOKANNAN_NIMI;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
-        //Jos tietokannassa on dataa eli moveToFirst palauttaa true, siirrytään viimeiselle riville ja tarkistetaan, että tieto on alle 7 päivää vanha.
-        if(kursori.moveToFirst()) {
+        //Jos tietokannassa on dataa eli moveToFirst palauttaa true, siirrytään viimeiselle riville ja tarkistetaan, että ajankohdat ovat samat.
+        if (kursori.moveToFirst()) {
             kursori.moveToLast();
             int tamaPaiva = LocalDateTime.now().getDayOfYear();
             int viimeiseimmanRivinPaiva = kursori.getInt(0);
-            int erotus = tamaPaiva - viimeiseimmanRivinPaiva;
-            //Jos tämä päivä on seuraavan vuoden puolella, erotuksesta tulee negatiivinen vastaus, joka muutetaan järkeväksi luvuksi
-            if (erotus < 0) {
-                erotus = (365 + tamaPaiva) - viimeiseimmanRivinPaiva;
-            }
-            if (erotus < 7) {
+
+            int kuluvaVuosi = LocalDateTime.now().getYear();
+            int viimeiseimmanRivinVuosi = kursori.getInt(1);
+
+            //Tarkistetaan, että päivät ja vuodet ovat samat.
+            if (tamaPaiva == viimeiseimmanRivinPaiva && kuluvaVuosi == viimeiseimmanRivinVuosi) {
                 kursori.close();
                 tietokanta.close();
                 return true;
@@ -104,10 +108,10 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri tämän viikon unitavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri tanaan merkatulle unen kestolle</p>
+     * @return Talle paivalle merkatun unen keston tunteina
      */
-    public int haeTamanViikonUniTavoite() {
+    public int haeTamanPaivanUnenKesto() {
 
         String hakuLauseke_SQL = "SELECT UNI FROM " + TIETOKANNAN_NIMI;
         int haettuTavoite;
@@ -123,10 +127,10 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         return haettuTavoite;
     }
     /**
-     * Getteri tämän viikon liikuntatavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri tanaan merkatun liikunnan pituudelle</p>
+     * @return Talle paivalle merkatun liikunnan kilometreina
      */
-    public int haeTamanViikonLiikuntaTavoite() {
+    public int haeTamanPaivanLiikunnanPituus() {
 
         String hakuLauseke_SQL = "SELECT LIIKUNTA FROM " + TIETOKANNAN_NIMI;
         int haettuTavoite;
@@ -141,52 +145,14 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         tietokanta.close();
         return haettuTavoite;
     }
-    /**
-     * Getteri tämän viikon ulkonasyömistavoitteelle
-     * @return palauttaa kokonaisluvun
-     */
-    public int haeTamanViikonUlkonasyonnitTavoite() {
-
-        String hakuLauseke_SQL = "SELECT ULKONASYONNIT FROM " + TIETOKANNAN_NIMI;
-        int haettuTavoite;
-
-        SQLiteDatabase tietokanta = this.getReadableDatabase();
-
-        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
-
-        kursori.moveToLast();
-        haettuTavoite = kursori.getInt(0);
-        kursori.close();
-        tietokanta.close();
-        return haettuTavoite;
-    }
 
     /**
-     * Getteri tämän viikon lenkkien pituustavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri tanaan merkatun lenkin pituudelle</p>
+     * @return Talle paivalle merkatun lenkin kilometreina
      */
-    public int haeTamanViikonLenkkiTavoite() {
+    public int haeTamanPaivanLenkinpituus() {
 
         String hakuLauseke_SQL = "SELECT LENKKI FROM " + TIETOKANNAN_NIMI;
-        int haettuTavoite;
-
-        SQLiteDatabase tietokanta = this.getReadableDatabase();
-
-        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
-
-        kursori.moveToLast();
-        haettuTavoite = kursori.getInt(0);
-        kursori.close();
-        tietokanta.close();
-        return haettuTavoite;
-    }
-    /**
-     * Getteri tämän viikon salitreenien tavoitemäärälle
-     * @return palauttaa kokonaisluvun
-     */
-    public int haeTamanViikonSaliTavoite() {
-
-        String hakuLauseke_SQL = "SELECT SALI FROM " + TIETOKANNAN_NIMI;
         int haettuTavoite;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Käyttäjätietokanta", "Paino: " + kayttajatietokanta.haePaino() + " Kg");
         }
         //Jos viikon tavoitetta ei ole asetettu, siirrytään tavoitteenasetusaktiviteettiin
-        if (!viikkotavoitetietokanta.onkoTietokantaa()) {
+        if (!viikkotavoitetietokanta.onkoTavoitettaKuluvalleViikolle()) {
             Log.d("Viikkotavoitetietokanta", "Ei löydy! Siirrytään Tavoitteenasetusaktiviteettiin...");
             Intent intent = new Intent(MainActivity.this, TavoitteenasetusActivity.class);
             startActivity(intent);

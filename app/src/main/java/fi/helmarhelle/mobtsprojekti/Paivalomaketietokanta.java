@@ -8,11 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 /**
  * @author Reima
- * @version 12.12.2021
+ * @version 13.12.2021
  * @since 9.12.2021
  * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
  *
@@ -35,13 +34,13 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
     private final String SALI_SARAKE = "SALI";
 
     public Paivalomaketietokanta (@Nullable Context context) {
-        super(context, "Paivalomake.db", null, 1);
+        super(context, "paivalomake.db", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + VUODENPAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + UNI_SARAKE + " INTEGER, " + LIIKUNTA_SARAKE + " INTEGER, " + ULKONASYONNIT_SARAKE + " INTEGER, " + LENKKI_SARAKE + " INTEGER, " + SALI_SARAKE + " INTEGER)";
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + VUODENPAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + UNI_SARAKE + " INTEGER, " + LIIKUNTA_SARAKE + " REAL, " + ULKONASYONNIT_SARAKE + " INTEGER, " + LENKKI_SARAKE + " REAL, " + SALI_SARAKE + " INTEGER)";
 
         db.execSQL(taulunLuontiLause_SQL);
     }
@@ -53,8 +52,9 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
 
     /**
      * <p>Ottaa paivalomakeosion sisaansa ja tallentaa sen parametrit tietokantaan. Tarvitsee myos kontekstin</p>
-     * <p>Hyodyntaa viikkotavoitetietokantaa, joten sen pitaa olla ajan tasalla ennen paivalomaketietokannan kayttoa.</p>
-     * @param paivaLomake
+     * <p>Hyodyntaa Viikkotavoitetietokantaa, joten sen pitaa olla ajan tasalla ennen Paivalomaketietokannan kayttoa.</p>
+     * @param paivaLomake Taytetty paivalomake.
+     * @param context Se aktiviteetti jossa lisaaTiedot-metodia kutsutaan.
      * @return Onnistuiko tietojen lisays vai ei.
      */
     public boolean lisaaTiedot (PaivaLomake paivaLomake, Context context) {
@@ -67,7 +67,7 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         sisalto.put(VUODENPAIVA_SARAKE, LocalDateTime.now().getDayOfYear());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
-        //Jos lomakkeeseen on syötetty käyttäjän nukkuneen tarpeeksi, haetaan tuntimäärä tietokannasta
+        //Jos lomakkeeseen on syötetty käyttäjän nukkuneen tarpeeksi, haetaan tuntimäärä tietokannasta. Muutoin otetaan käyttäjän syöttämä määrä.
         if (paivaLomake.isNukuttuTarpeeksi()) {
             int unenKestoTavoite = viikkotavoitetietokanta.haeTamanViikonUniTavoite();
             sisalto.put(UNI_SARAKE, unenKestoTavoite);
@@ -75,16 +75,24 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
             sisalto.put(UNI_SARAKE, paivaLomake.getUniH());
         }
 
-        if (paivaLomake.isNukuttuTarpeeksi()) {
-            int unenKestoTavoite = viikkotavoitetietokanta.haeTamanViikonUniTavoite();
-            sisalto.put(UNI_SARAKE, unenKestoTavoite);
+        //Jos lomakkeeseen on syötetty käyttäjän liikkuneen tarpeeksi, haetaan kilometrimäärä tietokannasta viikolle ja jaetaan se 7:llä. Muutoin otetaan käyttäjän syöttämä määrä.
+        if (paivaLomake.isKaveltyTarpeeksi()) {
+            //Muutetaan viikkotavoitetietokantaan tallennettu kokonaisluku liukuluvuksi.
+            float tavoiteKilometrit = viikkotavoitetietokanta.haeTamanViikonLiikuntaTavoite();
+            float kavelynMaaraPaivalle = tavoiteKilometrit/7;
+            sisalto.put(LIIKUNTA_SARAKE, kavelynMaaraPaivalle);
         } else {
-            sisalto.put(UNI_SARAKE, paivaLomake.getUniH());
+            sisalto.put(LIIKUNTA_SARAKE, paivaLomake.getLiikuntaKM());
         }
 
-        sisalto.put(LIIKUNTA_SARAKE, paivaLomake.getLiikuntaKM());
-        sisalto.put(ULKONASYONNIT_SARAKE, paivaLomake.getUlkonaSyonnitKPL());
-        sisalto.put(LENKKI_SARAKE, paivaLomake.getLenkitKM());
+        //Jos lomakkeeseen on syötetty käyttäjän syöneen ulkona, merkataan hänen syöneen kerran ulkona. Muutoin otetaan käyttäjän syöttämä määrä.
+        if (paivaLomake.isKaveltyTarpeeksi()) {
+            sisalto.put(ULKONASYONNIT_SARAKE, 1);
+        } else {
+            sisalto.put(ULKONASYONNIT_SARAKE, paivaLomake.getUlkonaSyonnitKPL());
+        }
+
+        sisalto.put(LENKKI_SARAKE, paivaLomake.getLenkkiKilometritKM());
         sisalto.put(SALI_SARAKE, paivaLomake.getSaliKaynnitKPL());
 
         long insert = tietokanta.insert(TIETOKANNAN_NIMI, null, sisalto);
@@ -132,45 +140,85 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
     public int haeTamanPaivanUnenKesto() {
 
         String hakuLauseke_SQL = "SELECT UNI FROM " + TIETOKANNAN_NIMI;
-        int haettuTavoite;
+        int haettuTieto;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
         kursori.moveToLast();
-        haettuTavoite = kursori.getInt(0);
+        haettuTieto = kursori.getInt(0);
         kursori.close();
         tietokanta.close();
-        return haettuTavoite;
+        return haettuTieto;
     }
     /**
      * <p>Getteri tanaan merkatun liikunnan pituudelle</p>
      * @return Talle paivalle merkatun liikunnan kilometreina
      */
-    public int haeTamanPaivanLiikunnanPituus() {
+    public float haeTamanPaivanLiikunnanPituus() {
 
         String hakuLauseke_SQL = "SELECT LIIKUNTA FROM " + TIETOKANNAN_NIMI;
-        int haettuTavoite;
+        float haettuTieto;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
         kursori.moveToLast();
-        haettuTavoite = kursori.getInt(0);
+        haettuTieto = kursori.getFloat(0);
         kursori.close();
         tietokanta.close();
-        return haettuTavoite;
+        return haettuTieto;
+    }
+    /**
+     * <p>Getteri tanaan merkatuille ulkonasyonneille</p>
+     * @return Talle paivalle merkatut ulkonasyonnit kokonaislukuna.
+     */
+    public int haeTamanPaivanUlkonaSyonnit() {
+
+        String hakuLauseke_SQL = "SELECT ULKONASYONNIT FROM " + TIETOKANNAN_NIMI;
+        int haettuTieto;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuTieto = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuTieto;
     }
 
     /**
      * <p>Getteri tanaan merkatun lenkin pituudelle</p>
      * @return Talle paivalle merkatun lenkin kilometreina
      */
-    public int haeTamanPaivanLenkinpituus() {
+    public float haeTamanPaivanLenkinpituus() {
 
         String hakuLauseke_SQL = "SELECT LENKKI FROM " + TIETOKANNAN_NIMI;
+        float haettuTavoite;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuTavoite = kursori.getFloat(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuTavoite;
+    }
+
+
+    /**
+     * <p>Getteri tanaan merkatuille salikaynneille</p>
+     * @return Talle paivalle merkatut salikaynnit kokonaislukuna
+     */
+    public int haeTamanPaivanSaliKaynnit() {
+
+        String hakuLauseke_SQL = "SELECT SALI FROM " + TIETOKANNAN_NIMI;
         int haettuTavoite;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();

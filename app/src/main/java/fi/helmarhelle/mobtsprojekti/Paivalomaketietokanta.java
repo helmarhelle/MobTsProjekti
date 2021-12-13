@@ -51,8 +51,15 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
 
     }
 
-    public boolean lisaaTiedot (PaivaLomake paivaLomake) {
+    /**
+     * <p>Ottaa paivalomakeosion sisaansa ja tallentaa sen parametrit tietokantaan. Tarvitsee myos kontekstin</p>
+     * <p>Hyodyntaa viikkotavoitetietokantaa, joten sen pitaa olla ajan tasalla ennen paivalomaketietokannan kayttoa.</p>
+     * @param paivaLomake
+     * @return Onnistuiko tietojen lisays vai ei.
+     */
+    public boolean lisaaTiedot (PaivaLomake paivaLomake, Context context) {
 
+        Viikkotavoitetietokanta viikkotavoitetietokanta = new Viikkotavoitetietokanta (context);
         SQLiteDatabase tietokanta = this.getWritableDatabase();
         ContentValues sisalto = new ContentValues();
 
@@ -60,14 +67,25 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         sisalto.put(VUODENPAIVA_SARAKE, LocalDateTime.now().getDayOfYear());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
+        //Jos lomakkeeseen on syötetty käyttäjän nukkuneen tarpeeksi, haetaan tuntimäärä tietokannasta
         if (paivaLomake.isNukuttuTarpeeksi()) {
-
+            int unenKestoTavoite = viikkotavoitetietokanta.haeTamanViikonUniTavoite();
+            sisalto.put(UNI_SARAKE, unenKestoTavoite);
+        } else {
+            sisalto.put(UNI_SARAKE, paivaLomake.getUniH());
         }
-        sisalto.put(UNI_SARAKE, viikkotavoite.getUniH());
-        sisalto.put(LIIKUNTA_SARAKE, viikkotavoite.getLiikuntaKM());
-        sisalto.put(ULKONASYONNIT_SARAKE, viikkotavoite.getUlkonaSyonnitKPL());
-        sisalto.put(LENKKI_SARAKE, viikkotavoite.getLenkitKM());
-        sisalto.put(SALI_SARAKE, viikkotavoite.getSaliKaynnitKPL());
+
+        if (paivaLomake.isNukuttuTarpeeksi()) {
+            int unenKestoTavoite = viikkotavoitetietokanta.haeTamanViikonUniTavoite();
+            sisalto.put(UNI_SARAKE, unenKestoTavoite);
+        } else {
+            sisalto.put(UNI_SARAKE, paivaLomake.getUniH());
+        }
+
+        sisalto.put(LIIKUNTA_SARAKE, paivaLomake.getLiikuntaKM());
+        sisalto.put(ULKONASYONNIT_SARAKE, paivaLomake.getUlkonaSyonnitKPL());
+        sisalto.put(LENKKI_SARAKE, paivaLomake.getLenkitKM());
+        sisalto.put(SALI_SARAKE, paivaLomake.getSaliKaynnitKPL());
 
         long insert = tietokanta.insert(TIETOKANNAN_NIMI, null, sisalto);
         return insert != -1;

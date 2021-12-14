@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
+
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 /**
  * @author Reima
@@ -22,6 +24,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     private final String ID = "ID";
 
     private final String PAIVA_SARAKE = "PAIVA";
+    private final String VUODENPAIVA_SARAKE = "VUODENPAIVA";
     private final String KUUKAUSI_SARAKE = "KUUKAUSI";
     private final String VUOSI_SARAKE = "VUOSI";
     private final String UNI_SARAKE = "UNI";
@@ -37,7 +40,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + UNI_SARAKE + " INTEGER, " + LIIKUNTA_SARAKE + " INTEGER, " + ULKONASYONNIT_SARAKE + " INTEGER, " + LENKKI_SARAKE + " INTEGER, " + SALI_SARAKE + " INTEGER)";
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + PAIVA_SARAKE + " INTEGER, " + VUODENPAIVA_SARAKE + " INTEGER, " + KUUKAUSI_SARAKE + " INTEGER, " + VUOSI_SARAKE + " INTEGER, " + UNI_SARAKE + " INTEGER, " + LIIKUNTA_SARAKE + " INTEGER, " + ULKONASYONNIT_SARAKE + " INTEGER, " + LENKKI_SARAKE + " INTEGER, " + SALI_SARAKE + " INTEGER)";
 
         db.execSQL(taulunLuontiLause_SQL);
     }
@@ -53,6 +56,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         ContentValues sisalto = new ContentValues();
 
         sisalto.put(PAIVA_SARAKE, LocalDateTime.now().getDayOfMonth());
+        sisalto.put(VUODENPAIVA_SARAKE, LocalDateTime.now().getDayOfYear());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
         sisalto.put(UNI_SARAKE, viikkotavoite.getUniH());
@@ -66,26 +70,37 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Metodi tarkistaa, onko tietokannassa vähintään 1 rivi tietoa
-     * @return palauttaa totuusarvon
+     * <p>tarkistaa, onko tietokannassa tavoitetta kuluvalle viikolle.</p>>
+     * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpäivä-sarakkeen ja vertaamalla sitä tähän päivään siten, että tiedon tulee olla max. 6 päivää vanhaa.</p>
+     * @return Onko tavoitetta tälle viikolle vai ei.
      */
-    public boolean onkoTietokantaa () {
+    public boolean onkoTavoitettaKuluvalleViikolle () {
 
-        String hakuLauseke_SQL = "SELECT * FROM " + TIETOKANNAN_NIMI;
+        String hakuLauseke_SQL = "SELECT VUODENPAIVA FROM " + TIETOKANNAN_NIMI;
 
         SQLiteDatabase tietokanta = this.getReadableDatabase();
 
         Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
 
+        //Jos tietokannassa on dataa eli moveToFirst palauttaa true, siirrytään viimeiselle riville ja tarkistetaan, että tieto on alle 7 päivää vanha.
         if(kursori.moveToFirst()) {
-            kursori.close();
-            tietokanta.close();
-            return true;
-        }else {
-            kursori.close();
-            tietokanta.close();
-            return false;
+            kursori.moveToLast();
+            int tamaPaiva = LocalDateTime.now().getDayOfYear();
+            int viimeiseimmanRivinPaiva = kursori.getInt(0);
+            int erotus = tamaPaiva - viimeiseimmanRivinPaiva;
+            //Jos tämä päivä on seuraavan vuoden puolella, erotuksesta tulee negatiivinen vastaus, joka muutetaan järkeväksi luvuksi
+            if (erotus < 0) {
+                erotus = (365 + tamaPaiva) - viimeiseimmanRivinPaiva;
+            }
+            if (erotus < 7) {
+                kursori.close();
+                tietokanta.close();
+                return true;
+            }
         }
+        kursori.close();
+        tietokanta.close();
+        return false;
     }
 
     /**

@@ -12,10 +12,9 @@ import java.util.ArrayList;
 
 /**
  * @author Reima
- * @version 13.12.2021
  * @since 9.12.2021
+ * @version 14.12.2021
  * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
- *
  */
 
 public class Paivalomaketietokanta extends SQLiteOpenHelper {
@@ -34,10 +33,18 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
     private final String LENKKI_SARAKE = "LENKKI";
     private final String SALI_SARAKE = "SALI";
 
+    /**
+     * <p>Konstruktori Paivalomaketietokantaoliolle.</p>
+     * @param context   aktiviteetti, jossa luokkaa kaytetaan.
+     */
     public Paivalomaketietokanta (@Nullable Context context) {
         super(context, "paivalomake.db", null, 1);
     }
 
+    /**
+     * <p>Varsinainen tietokannan luontimetodi - luo taulun ja sarakkeet.</p>
+     * @param db    Tietokanta
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
@@ -46,17 +53,23 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         db.execSQL(taulunLuontiLause_SQL);
     }
 
+    /**
+     * <p>Tietokannan paivitysmetodi - ei tarvita tassa ohjelmassa</p>
+     * @param db    tietokannan nimi
+     * @param oldVersion    vanha versionumero
+     * @param newVersion    uusi versionumero
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
     /**
-     * <p>Ottaa paivalomakeosion sisaansa ja tallentaa sen parametrit tietokantaan. Tarvitsee myos kontekstin</p>
+     * <p>Ottaa paivalomakeosion sisaansa ja tallentaa sen parametrit seka tallentamisajankohdan tietokantaan.</p>
      * <p>Hyodyntaa Viikkotavoitetietokantaa, joten sen pitaa olla ajan tasalla ennen Paivalomaketietokannan kayttoa.</p>
      * @param paivaLomake Taytetty paivalomake.
      * @param context Se aktiviteetti jossa lisaaTiedot-metodia kutsutaan.
-     * @return Onnistuiko tietojen lisays vai ei.
+     * @return Onnistuiko tietojen tallentaminen vai ei.
      */
     public boolean lisaaTiedot (PaivaLomake paivaLomake, Context context) {
 
@@ -87,7 +100,7 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         }
 
         //Jos lomakkeeseen on syötetty käyttäjän syöneen ulkona, merkataan hänen syöneen kerran ulkona. Muutoin otetaan käyttäjän syöttämä määrä.
-        if (paivaLomake.isKaveltyTarpeeksi()) {
+        if (paivaLomake.isSyotyUlkona()) {
             sisalto.put(ULKONASYONNIT_SARAKE, 1);
         } else {
             sisalto.put(ULKONASYONNIT_SARAKE, paivaLomake.getUlkonaSyonnitKPL());
@@ -134,10 +147,10 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         return false;
     }
     /**
-     * Getteri valitun kuukauden valituille saavutuksille.
+     * <p>Getteri valitun kuukauden valituille saavutuksille.</p>
      * @param kuukausi haluttu kuukausi kokonaislukuna.
      * @param saavutukset joko uni, liikunta, syonti, lenkki tai sali.
-     * @return listan, jossa jokainen loytynyt saavutus on oma alkionsa (indeksit valilla 0-30).
+     * @return Listan, jossa jokainen loytynyt saavutus on oma alkionsa (indeksit valilla 0-30).
      */
     public ArrayList<Float> haeKuukaudenSaavutukset(int kuukausi, String saavutukset) {
 
@@ -176,7 +189,7 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         return haetutTavoitteet;
     }
     /**
-     * Getteri kuluvan viikon saavutuksille.
+     * <p>Getteri kuluvan viikon saavutuksille.</p>
      * @param saavutukset joko uni, liikunta, syonti, lenkki tai sali.
      * @param context Se aktiviteetti jossa haeTamanViikonSaavutukset-metodia kutsutaan.
      * @return listan, jossa jokainen loytynyt saavutus on oma alkionsa (indeksit valilla 0-6).
@@ -222,8 +235,8 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         return haetutTavoitteet;
     }
     /**
-     * <p>Getteri tanaan merkatulle unen kestolle</p>
-     * @return Talle paivalle merkatun unen keston tunteina
+     * <p>Getteri tanaan merkatulle unen kestolle.</p>
+     * @return Talle paivalle merkatun unen keston tunteina.
      */
     public int haeTamanPaivanUnenKesto() {
 
@@ -241,8 +254,8 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         return haettuTieto;
     }
     /**
-     * <p>Getteri tanaan merkatun liikunnan pituudelle</p>
-     * @return Talle paivalle merkatun liikunnan kilometreina
+     * <p>Getteri tanaan merkatun liikunnan pituudelle.</p>
+     * @return Talle paivalle merkatun liikunnan kilometreina.
      */
     public float haeTamanPaivanLiikunnanPituus() {
 
@@ -260,7 +273,7 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         return haettuTieto;
     }
     /**
-     * <p>Getteri tanaan merkatuille ulkonasyonneille</p>
+     * <p>Getteri tanaan merkatuille ulkonasyonneille.</p>
      * @return Talle paivalle merkatut ulkonasyonnit kokonaislukuna.
      */
     public int haeTamanPaivanUlkonaSyonnit() {
@@ -280,8 +293,8 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * <p>Getteri tanaan merkatun lenkin pituudelle</p>
-     * @return Talle paivalle merkatun lenkin kilometreina
+     * <p>Getteri tanaan merkatun lenkin pituudelle.</p>
+     * @return Talle paivalle merkatun lenkin kilometreina.
      */
     public float haeTamanPaivanLenkinpituus() {
 
@@ -301,8 +314,8 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
 
 
     /**
-     * <p>Getteri tanaan merkatuille salikaynneille</p>
-     * @return Talle paivalle merkatut salikaynnit kokonaislukuna
+     * <p>Getteri tanaan merkatuille salikaynneille.</p>
+     * @return Talle paivalle merkatut salikaynnit kokonaislukuna.
      */
     public int haeTamanPaivanSaliKaynnit() {
 

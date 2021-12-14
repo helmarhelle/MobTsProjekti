@@ -8,12 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author Reima
- * @version 7.12.2021
- * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
+ * @version 14.12.2021
+ * @since 7.12.2021
+ * <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
  *
  */
 
@@ -102,10 +105,29 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         tietokanta.close();
         return false;
     }
+    /**
+     * Getteri tämän viikon tavoitteen tallennuspaivalle.
+     * @return vuodenpaivan kokonaislukuna.
+     */
+    public int haeTamanViikonViikkotavoitteenTallennusPaiva() {
+
+        String hakuLauseke_SQL = "SELECT VUODENPAIVA FROM " + TIETOKANNAN_NIMI;
+        int haettuPvm;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuPvm = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuPvm;
+    }
 
     /**
      * Getteri tämän viikon unitavoitteelle
-     * @return palauttaa kokonaisluvun
+     * @return unitavoitteen kokonaislukuna
      */
     public int haeTamanViikonUniTavoite() {
 
@@ -122,6 +144,46 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         tietokanta.close();
         return haettuTavoite;
     }
+
+    /**
+     * Getteri valitun kuukauden valituille tavoitteille.
+     * @param kuukausi haluttu kuukausi kokonaislukuna.
+     * @param tavoite joko uni, liikunta, syonti, lenkki tai sali.
+     * @return listan, jossa jokaisen loytyneen viikon tavoite on oma alkionsa (indeksit valilla 0-3).
+     */
+    public ArrayList<Integer> haeKuukaudenTavoitteet(int kuukausi, String tavoite) {
+
+        String hakuLauseke_SQL;
+        //Palautettava tavoite valitaan merkkijonon perusteella
+        if (tavoite.contains("uni")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, UNI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (tavoite.contains("liikunta")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LIIKUNTA FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (tavoite.contains("syonti")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, ULKONASYONNIT FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (tavoite.contains("lenkki")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LENKKI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, SALI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        }
+
+        ArrayList <Integer> haetutTavoitteet = new ArrayList<>();
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        if (kursori.moveToFirst()) {
+            haetutTavoitteet.add(kursori.getInt(1));
+            while (kursori.moveToNext()) {
+                haetutTavoitteet.add(kursori.getInt(1));
+            }
+        }
+        kursori.close();
+        tietokanta.close();
+        return haetutTavoitteet;
+    }
+
     /**
      * Getteri tämän viikon liikuntatavoitteelle
      * @return palauttaa kokonaisluvun

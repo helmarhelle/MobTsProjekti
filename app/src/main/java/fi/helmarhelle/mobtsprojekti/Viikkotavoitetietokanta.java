@@ -105,6 +105,25 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         tietokanta.close();
         return false;
     }
+    /**
+     * Getteri tämän viikon tavoitteen tallennuspaivalle.
+     * @return vuodenpaivan kokonaislukuna.
+     */
+    public int haeTamanViikonViikkotavoitteenTallennusPaiva() {
+
+        String hakuLauseke_SQL = "SELECT VUODENPAIVA FROM " + TIETOKANNAN_NIMI;
+        int haettuPvm;
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        kursori.moveToLast();
+        haettuPvm = kursori.getInt(0);
+        kursori.close();
+        tietokanta.close();
+        return haettuPvm;
+    }
 
     /**
      * Getteri tämän viikon unitavoitteelle

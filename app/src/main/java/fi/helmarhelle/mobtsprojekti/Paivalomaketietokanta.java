@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * @author Reima
@@ -132,7 +133,94 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
         tietokanta.close();
         return false;
     }
+    /**
+     * Getteri valitun kuukauden valituille saavutuksille.
+     * @param kuukausi haluttu kuukausi kokonaislukuna.
+     * @param saavutukset joko uni, liikunta, syonti, lenkki tai sali.
+     * @return listan, jossa jokainen loytynyt saavutus on oma alkionsa (indeksit valilla 0-30).
+     */
+    public ArrayList<Float> haeKuukaudenSaavutukset(int kuukausi, String saavutukset) {
 
+        String hakuLauseke_SQL;
+        //Palautettava saavutukset valitaan merkkijonon perusteella
+        if (saavutukset.contains("uni")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, UNI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (saavutukset.contains("liikunta")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LIIKUNTA FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (saavutukset.contains("syonti")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, ULKONASYONNIT FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (saavutukset.contains("lenkki")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LENKKI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else if (saavutukset.contains("sali")){
+            hakuLauseke_SQL = "SELECT KUUKAUSI, SALI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".KUUKAUSI =" + kuukausi;
+        } else  {
+            hakuLauseke_SQL = "";
+        }
+
+        ArrayList <Float> haetutTavoitteet = new ArrayList<>();
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        if (kursori.moveToFirst()) {
+
+            haetutTavoitteet.add(kursori.getFloat(1));
+
+            while (kursori.moveToNext()) {
+                haetutTavoitteet.add(kursori.getFloat(1));
+            }
+        }
+        kursori.close();
+        tietokanta.close();
+        return haetutTavoitteet;
+    }
+    /**
+     * Getteri kuluvan viikon saavutuksille.
+     * @param saavutukset joko uni, liikunta, syonti, lenkki tai sali.
+     * @param context Se aktiviteetti jossa haeTamanViikonSaavutukset-metodia kutsutaan.
+     * @return listan, jossa jokainen loytynyt saavutus on oma alkionsa (indeksit valilla 0-6).
+     */
+    public ArrayList<Float> haeTamanViikonSaavutukset(String saavutukset, Context context) {
+
+        //Haetaan viikkotavoitteen tallennuspäivä. Haetaan ainoastaan saman päivän tietoja tai uudempia.
+        Viikkotavoitetietokanta viikkotavoitetietokanta = new Viikkotavoitetietokanta (context);
+        int viikkotavoitteenTallennusPaiva = viikkotavoitetietokanta.haeTamanViikonViikkotavoitteenTallennusPaiva();
+
+        String hakuLauseke_SQL;
+        //Palautettava saavutukset valitaan merkkijonon perusteella
+        if (saavutukset.contains("uni")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, UNI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".VUODENPAIVA >=" + viikkotavoitteenTallennusPaiva;
+        } else if (saavutukset.contains("liikunta")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LIIKUNTA FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".VUODENPAIVA >=" + viikkotavoitteenTallennusPaiva;
+        } else if (saavutukset.contains("syonti")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, ULKONASYONNIT FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".VUODENPAIVA >=" + viikkotavoitteenTallennusPaiva;
+        } else if (saavutukset.contains("lenkki")) {
+            hakuLauseke_SQL = "SELECT KUUKAUSI, LENKKI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".VUODENPAIVA >=" + viikkotavoitteenTallennusPaiva;
+        } else if (saavutukset.contains("sali")){
+            hakuLauseke_SQL = "SELECT KUUKAUSI, SALI FROM " + TIETOKANNAN_NIMI + " WHERE " + TIETOKANNAN_NIMI + ".VUODENPAIVA >=" + viikkotavoitteenTallennusPaiva;
+        } else  {
+            hakuLauseke_SQL = "";
+        }
+
+        ArrayList <Float> haetutTavoitteet = new ArrayList<>();
+
+        SQLiteDatabase tietokanta = this.getReadableDatabase();
+
+        Cursor kursori = tietokanta.rawQuery(hakuLauseke_SQL, null);
+
+        if (kursori.moveToFirst()) {
+
+            haetutTavoitteet.add(kursori.getFloat(1));
+
+            while (kursori.moveToNext()) {
+                haetutTavoitteet.add(kursori.getFloat(1));
+            }
+        }
+        kursori.close();
+        tietokanta.close();
+        return haetutTavoitteet;
+    }
     /**
      * <p>Getteri tanaan merkatulle unen kestolle</p>
      * @return Talle paivalle merkatun unen keston tunteina

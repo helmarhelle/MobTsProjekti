@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Paivalomaketietokanta", "Ulkonasyöntejä: " + paivalomaketietokanta.haeTamanPaivanUlkonaSyonnit() + " Kpl");
                     Log.d("Paivalomaketietokanta", "Lenkin pituus: " + paivalomaketietokanta.haeTamanPaivanLenkinpituus() + " Km");
                     Log.d("Paivalomaketietokanta", "Salikäyntejä: " + paivalomaketietokanta.haeTamanPaivanSaliKaynnit()+ " Kpl");
+                    Log.d("KUUKAUDEN UNITAVOITTEET", "Viikko 1: " + viikkotavoitetietokanta.haeKuukaudenTavoitteet(12, "uni").get(0)+ " tuntia");
+
 
                 }
             }

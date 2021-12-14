@@ -2,9 +2,9 @@ package fi.helmarhelle.mobtsprojekti;
 
 /**
  * @author Reima
- * <p>Luokka viikkotavoite-olion luomiseen, helpottamaan tietokantaluokkien ymmärtämistä.</p>
  * @version 7.12.2021
  * @since 7.12.2021
+ * <p>Luokka viikkotavoite-olion luomiseen, jotka voidaan tallentaa viikkotavoite-tietokantaan</p>
  */
 public class Viikkotavoite {
 

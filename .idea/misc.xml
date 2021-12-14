@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Opiskelu/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_kayttajan_tiedot.xml" value="0.25" />
-        <entry key="..\:/Users/Opiskelu/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_tavoitteenasetus.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_aloitusnaytto.xml" value="0.2" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_kayttajan_tiedot.xml" value="0.11296296296296296" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_tavoitteenasetus.xml" value="0.4" />
       </map>
     </option>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_aloitusnaytto.xml" value="0.2" />
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_kayttajan_tiedot.xml" value="0.11296296296296296" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_kuukauden_edistyminen.xml" value="0.12447916666666667" />
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_tavoitteenasetus.xml" value="0.4" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_viikon_edistyminen.xml" value="0.13020833333333334" />
       </map>
     </option>
   </component>

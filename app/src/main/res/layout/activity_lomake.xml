@@ -22,7 +22,7 @@
 
     <Switch
         android:id="@+id/syontiSwitch"
-        android:layout_width="171dp"
+        android:layout_width="175dp"
         android:layout_height="28dp"
         android:layout_marginTop="20dp"
         android:text="@string/lomake_syonti_switch"
@@ -73,8 +73,8 @@
 
     <Switch
         android:id="@+id/liikuntaSwitch"
-        android:layout_width="169dp"
-        android:layout_height="35dp"
+        android:layout_width="175dp"
+        android:layout_height="28dp"
         android:layout_marginTop="20dp"
         android:text="@string/lomake_liikunta_switch"
         app:layout_constraintStart_toStartOf="@+id/liikuntaText"
@@ -83,7 +83,7 @@
     <Button
         android:id="@+id/button_Graafeihin"
         android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:text="@string/lomake_aktiviteetinvaihto_edistyminen"
         android:textAlignment="center"
         android:textSize="10sp"
@@ -97,7 +97,7 @@
     <Button
         android:id="@+id/button_kayttajan_tietoihin"
         android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:text="@string/lomake_aktiviteetinvaihto_kayttajantiedot"
         android:textAlignment="center"
         android:textSize="10sp"
@@ -108,7 +108,7 @@
         app:layout_constraintTop_toTopOf="@+id/button_Tavoitteenasetukseen" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/otsikko_lomakeaktiviteetti"
         android:layout_width="273dp"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
@@ -122,7 +122,7 @@
     <Button
         android:id="@+id/button_Tavoitteenasetukseen"
         android:layout_width="135dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="@string/lomake_aktiviteetinvaihto_viikkotavoite"
         android:textAlignment="center"
         android:textSize="10sp"
@@ -148,12 +148,12 @@
 
     <Switch
         android:id="@+id/uniSwitch"
-        android:layout_width="171dp"
+        android:layout_width="175dp"
         android:layout_height="28dp"
         android:layout_marginTop="24dp"
         android:text="@string/lomake_uni_switch"
         app:layout_constraintStart_toStartOf="@+id/uniText"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/otsikko_lomakeaktiviteetti" />
 
     <Button
         android:id="@+id/tallennusButton_lomake"

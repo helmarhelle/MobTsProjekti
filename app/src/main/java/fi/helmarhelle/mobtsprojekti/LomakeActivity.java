@@ -3,8 +3,10 @@ package fi.helmarhelle.mobtsprojekti;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,7 +14,8 @@ import android.widget.Toast;
 public class LomakeActivity extends AppCompatActivity {
 
     Switch uniSwitch, liikuntaSwitch, syontiSwitch;
-    TextView uniTeksti, liikuntaTeksti, syontiTeksti, lenkkiTeksti, saliTeksti;
+    EditText uniTeksti, liikuntaTeksti, syontiTeksti, lenkkiTeksti, saliTeksti;
+    TextView otsikko;
     Button tallennusButton, edistymisButton, viikkotavoiteButton, tietojenmuutosButton;
     Viikkotavoitetietokanta viikkotavoitetietokanta;
     Paivalomaketietokanta paivalomaketietokanta;
@@ -30,6 +33,7 @@ public class LomakeActivity extends AppCompatActivity {
         liikuntaSwitch = findViewById(R.id.liikuntaSwitch);
         syontiSwitch = findViewById(R.id.syontiSwitch);
 
+        otsikko = findViewById(R.id.otsikko_lomakeaktiviteetti);
         uniTeksti = findViewById(R.id.uniText);
         liikuntaTeksti = findViewById(R.id.liikuntaText);
         syontiTeksti = findViewById(R.id.ulkonaSyontiText);
@@ -102,6 +106,8 @@ public class LomakeActivity extends AppCompatActivity {
             if (onnistuiko) {
                 if (paivalomaketietokanta.lisaaTiedot(paivaLomake, LomakeActivity.this)) {
                     Toast.makeText(LomakeActivity.this, "Tietojen tallennus onnistui", Toast.LENGTH_SHORT).show();
+
+                    otsikko.setText(R.string.lomake_otsikko_tayttetty);
                     uniSwitch.setEnabled(false);
                     uniTeksti.setEnabled(false);
                     liikuntaSwitch.setEnabled(false);
@@ -130,7 +136,7 @@ public class LomakeActivity extends AppCompatActivity {
         });
 
         edistymisButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LomakeActivity.this, MainActivity.class);
+            Intent intent = new Intent(LomakeActivity.this, ViikonEdistyminen.class);
             startActivity(intent);
         });
 
@@ -143,6 +149,7 @@ public class LomakeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (paivalomaketietokanta.onkoLomakettaTallePaivalle()) {
+            otsikko.setText(R.string.lomake_otsikko_tayttetty);
             uniSwitch.setEnabled(false);
             uniTeksti.setEnabled(false);
             liikuntaSwitch.setEnabled(false);
@@ -153,6 +160,7 @@ public class LomakeActivity extends AppCompatActivity {
             saliTeksti.setEnabled(false);
             tallennusButton.setEnabled(false);
         } else {
+            otsikko.setText(R.string.lomake_otsikko);
             uniSwitch.setEnabled(true);
             uniTeksti.setEnabled(true);
             liikuntaSwitch.setEnabled(true);

@@ -22,6 +22,7 @@
 
     <!--Lomakeaktiviteetti-->
     <string name="lomake_otsikko">Miten päiväsi on sujunut?</string>
+    <string name="lomake_otsikko_tayttetty">Päivä tallennettu! :)</string>
     <string name="lomake_aktiviteetinvaihto_kayttajantiedot">Muuta tietojasi</string>
     <string name="lomake_aktiviteetinvaihto_viikkotavoite">Muuta viikkotavoitetta</string>
     <string name="lomake_aktiviteetinvaihto_edistyminen">Edistymisesi</string>

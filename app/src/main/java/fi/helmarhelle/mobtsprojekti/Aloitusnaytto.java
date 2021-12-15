@@ -19,6 +19,6 @@ public class Aloitusnaytto extends AppCompatActivity {
                 startActivity(x);
                 finish();
             }
-        }, 2500);
+        }, 750);
     }
 }

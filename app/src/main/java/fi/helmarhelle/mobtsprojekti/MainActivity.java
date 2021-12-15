@@ -6,11 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * @author Reima
+ * @since 6.12.2021
+ * @version 15.12.2021 <p>Tama aktiviteetti on vastuussa tietokantojen olemassaolon tarkistuksesta. Jos niita ei loydy, siirrytaan aina aktiviteettiin, jossa arvot asetetaan.</p>
+ * <p>MainActivity toimii myos siirtymaAktiviteettina tietojen tallennusaktiviteettien valilla. Tama varmistaa, etta tietokannat loytyvat aina niita tarvitsevissa aktiviteeteissa.</p>
+ */
 public class MainActivity extends AppCompatActivity {
 
     Kayttajatietokanta kayttajatietokanta;
     Viikkotavoitetietokanta viikkotavoitetietokanta;
     Paivalomaketietokanta paivalomaketietokanta;
+
+    /**
+     * <p>Oncreatessa alustetaan tietokantaoliot.</p>
+     * @param savedInstanceState Aktiviteetille intentin antama tietokasa.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * <p>Aina mainactivityn jatkuessa tarkistetaan vuorotellen, että tietokannat löytyvät ja lopulta palataan LomakeActivityyn.</p>
+     */
     @Override protected void onResume () {
         super.onResume();
         //Jos käyttäjän tietoja ei löydy, avataan aktiviteetti, jossa ne syötetään.
@@ -64,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("KUUKAUDEN UNITAVOITTEET", "Viikko 1: " + viikkotavoitetietokanta.haeKuukaudenTavoitteet(12, "uni").get(0)+ " tuntia");
                     Log.d("VIIKON UNISAAVUTUKSET", "Päivä 1: " + paivalomaketietokanta.haeTamanViikonSaavutukset("uni", MainActivity.this).get(0)+ " tuntia");
                 }
-                //testikommentti
                 //Siirrytään joka tapauksessa lomakeActivityyn:
                 Intent intent = new Intent(MainActivity.this, LomakeActivity.class);
                 startActivity(intent);

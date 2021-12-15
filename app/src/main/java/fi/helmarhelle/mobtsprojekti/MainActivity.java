@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("KUUKAUDEN UNITAVOITTEET", "Viikko 1: " + viikkotavoitetietokanta.haeKuukaudenTavoitteet(12, "uni").get(0)+ " tuntia");
                     Log.d("VIIKON UNISAAVUTUKSET", "Päivä 1: " + paivalomaketietokanta.haeTamanViikonSaavutukset("uni", MainActivity.this).get(0)+ " tuntia");
                 }
+                //testikommentti
                 //Siirrytään joka tapauksessa lomakeActivityyn:
                 Intent intent = new Intent(MainActivity.this, LomakeActivity.class);
                 startActivity(intent);

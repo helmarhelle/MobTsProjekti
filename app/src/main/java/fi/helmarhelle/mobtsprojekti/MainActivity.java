@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
+ * <p>Tama aktiviteetti on vastuussa tietokantojen olemassaolon tarkistuksesta. Jos niita ei loydy, siirrytaan aina aktiviteettiin, jossa arvot asetetaan.</p>
+ * <p>MainActivity toimii myos siirtymaAktiviteettina tietojen tallennusaktiviteettien valilla. Tama varmistaa, etta tietokannat loytyvat aina niita tarvitsevissa aktiviteeteissa.</p>
  * @author Reima
  * @since 6.12.2021
- * @version 15.12.2021 <p>Tama aktiviteetti on vastuussa tietokantojen olemassaolon tarkistuksesta. Jos niita ei loydy, siirrytaan aina aktiviteettiin, jossa arvot asetetaan.</p>
- * <p>MainActivity toimii myos siirtymaAktiviteettina tietojen tallennusaktiviteettien valilla. Tama varmistaa, etta tietokannat loytyvat aina niita tarvitsevissa aktiviteeteissa.</p>
+ * @version 15.12.2021
  */
 public class MainActivity extends AppCompatActivity {
 

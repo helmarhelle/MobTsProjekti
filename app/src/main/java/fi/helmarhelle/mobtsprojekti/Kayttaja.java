@@ -1,9 +1,10 @@
 package fi.helmarhelle.mobtsprojekti;
 
 /**
+ * <p>Luokka kayttaja-olion luomiseen, jotka voidaan tallentaa Kayttaja-tietokantaan.</p>
  * @author Reima
  * @since 6.12.2021
- * @version 14.12.2021 <p>Luokka kayttaja-olion luomiseen, jotka voidaan tallentaa Kayttaja-tietokantaan.</p>
+ * @version 14.12.2021
  */
 public class Kayttaja {
 

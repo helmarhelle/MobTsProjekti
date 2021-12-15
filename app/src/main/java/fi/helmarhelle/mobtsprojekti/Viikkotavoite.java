@@ -1,9 +1,10 @@
 package fi.helmarhelle.mobtsprojekti;
 
 /**
+ * <p>Luokka viikkotavoite-olion luomiseen, jotka voidaan tallentaa Viikkotavoite-tietokantaan.</p>
  * @author Reima
  * @since 7.12.2021
- * @version 14.12.2021 <p>Luokka viikkotavoite-olion luomiseen, jotka voidaan tallentaa Viikkotavoite-tietokantaan.</p>
+ * @version 14.12.2021
  */
 public class Viikkotavoite {
 
@@ -66,12 +67,14 @@ public class Viikkotavoite {
     }
     /**
      * <p>Setteri senkkien pituudelle Viikkotavoitetietokantaa varten.</p>
+     * @param lenkitKM Lenkit kokonaislukuna (Km).
      */
     public void setLenkitKM(int lenkitKM) {
         this.lenkitKM = lenkitKM;
     }
     /**
      * <p>Setteri salikayntien maaralle Viikkotavoitetietokantaa varten.</p>
+     * @param saliKaynnitKPL Salikaynnit kokonaislukuna
      */
     public void setSaliKaynnitKPL(int saliKaynnitKPL) {
         this.saliKaynnitKPL = saliKaynnitKPL;

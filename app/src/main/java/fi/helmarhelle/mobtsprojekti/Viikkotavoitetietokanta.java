@@ -13,9 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
  * @author Reima
  * @since 7.12.2021
- * @version 14.12.2021 <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
+ * @version 14.12.2021
  */
 
 public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
@@ -90,7 +91,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * <p>tarkistaa, onko tietokannassa tavoitetta kuluvalle viikolle.</p>>
+     * <p>tarkistaa, onko tietokannassa tavoitetta kuluvalle viikolle.</p>
      * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpaiva-sarakkeen ja vertaamalla sita tahan paivaan siten, etta tiedon tulee olla max. 6 paivaa vanhaa.</p>
      * @return Onko tavoitetta talle viikolle vai ei.
      */
@@ -221,7 +222,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         return haettuTavoite;
     }
     /**
-     * <p>Getteri taman viikon ulkonasyontien tavoitemaaralle.</p>>
+     * <p>Getteri taman viikon ulkonasyontien tavoitemaaralle.</p>
      * @return Taman viikon ulkonasyomistavoitteen kokonaislukuna.
      */
     public int haeTamanViikonUlkonasyonnitTavoite() {

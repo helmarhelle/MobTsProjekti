@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MobTsProjekti</string>
+    <string name="app_name">EasyLivin`</string>
 
-    <string name="mainactivity_teksti">LADATAAN...</string>
+    <string name="mainactivity_teksti">LADATAAN…</string>
     <!--Käyttäjänasetus-->
     <string name="kayttajantiedot_otsikko">Käyttäjän tiedot</string>
     <string name="kayttajantiedot_ika">Kuinka vanha olet?</string>

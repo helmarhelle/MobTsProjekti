@@ -9,9 +9,10 @@ import androidx.annotation.Nullable;
 import java.time.LocalDateTime;
 
 /**
+ * <p>Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.</p>
  * @author  Reima
  * @since 7.12.2021
- * @version 14.12.2021 <p>Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.</p>
+ * @version 14.12.2021
  */
 
 public class Kayttajatietokanta extends SQLiteOpenHelper {

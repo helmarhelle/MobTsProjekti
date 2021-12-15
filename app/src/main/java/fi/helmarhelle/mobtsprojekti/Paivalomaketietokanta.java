@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
+ * <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
  * @author Reima
  * @since 9.12.2021
- * @version 14.12.2021 <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
+ * @version 14.12.2021
  */
 
 public class Paivalomaketietokanta extends SQLiteOpenHelper {

@@ -10,9 +10,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 /**
+ * <p>Aktiviteetti, jossa asetetaan kayttajan tavoitteet tulevalle viikolle.</p>
  * @author Reima
  * @since 9.12.2021
- * @version 15.12.2021 <p>Aktiviteetti, jossa asetetaan kayttajan tavoitteet tulevalle viikolle.</p>
+ * @version 15.12.2021
  */
 public class TavoitteenasetusActivity extends AppCompatActivity {
 
@@ -45,6 +46,13 @@ public class TavoitteenasetusActivity extends AppCompatActivity {
         tallennus = findViewById(R.id.tallennusButton_tavoite);
 
 
+        //Kuuntelijat switcheille
+        lenkkiSwitch.setOnClickListener(v -> {
+            lenkki.setEnabled(lenkkiSwitch.isChecked());
+        });
+        saliSwitch.setOnClickListener(v -> {
+            sali.setEnabled(saliSwitch.isChecked());
+        });
         //Kuuntelija tallennusnapille
         tallennus.setOnClickListener(v -> {
             Viikkotavoite viikkotavoite;
@@ -80,7 +88,8 @@ public class TavoitteenasetusActivity extends AppCompatActivity {
         });
     }
     /**
-     * Kun aktiviteetti käynnistetään, asetetaan mahdollisesti löytyvät arvot lomakkeisiin
+     * <p>Kun aktiviteetti kaynnistetaan, asetetaan mahdollisesti loytyvat arvot lomakkeisiin.</p>
+     * <p>Jos lenkki- tai saliSwitcheja ei ole checkattu, estetaan kayttajaa kirjoittamasta niihin lomakkeisiinkaan mitaan.</p>
      */
     @Override
     protected void onResume() {
@@ -93,6 +102,21 @@ public class TavoitteenasetusActivity extends AppCompatActivity {
             lenkki.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite()));
             sali.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonSaliTavoite()));
         }
+        //Jos lenkkitavoite tai salitavoite on asetettu, asetetaan switchitkin päälle
+        if (!(viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite() == 0)) {
+            lenkkiSwitch.setChecked(true);
+        }
+        if (!(viikkotavoitetietokanta.haeTamanViikonSaliTavoite() == 0)) {
+            saliSwitch.setChecked(true);
+        }
+        //Jos lenkki- tai saliSwitcheja ei ole checkattu, estetaan kayttajaa kirjoittamasta niihin lomakkeisiinkaan mitaan.
+        if (!saliSwitch.isChecked()) {
+            sali.setEnabled(false);
+        }
+        if (!lenkkiSwitch.isChecked()) {
+            lenkki.setEnabled(false);
+        }
+
     }
 
 

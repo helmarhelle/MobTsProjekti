@@ -10,9 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
+ * <p>Aktiviteetti, jossa asetetaan kayttajan perustiedot.</p>
  * @author Reima
  * @since 8.12.2021
- * @version 15.12.2021 <p>Aktiviteetti, jossa asetetaan kayttajan perustiedot.</p>
+ * @version 15.12.2021
  */
 public class KayttajanTiedotActivity extends AppCompatActivity {
 

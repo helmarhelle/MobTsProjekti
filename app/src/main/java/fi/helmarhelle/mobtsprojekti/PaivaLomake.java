@@ -2,9 +2,10 @@ package fi.helmarhelle.mobtsprojekti;
 
 
 /**
+ * <p>Luokka päivittäin täytettävien lomakkeiden luomiseksi oliomuotoon, jotka voidaan tallentaa Paivalomake-tietokantaan</p>
  * @author Reima
  * @since 9.12.2021
- * @version 14.12.2021 <p>Luokka päivittäin täytettävien lomakkeiden luomiseksi oliomuotoon, jotka voidaan tallentaa Paivalomake-tietokantaan</p>
+ * @version 14.12.2021
  */
 public class PaivaLomake {
 

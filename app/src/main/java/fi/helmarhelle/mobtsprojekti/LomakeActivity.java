@@ -11,6 +11,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * <p>Toimii visuaalisena main-Aktiviteettina josta paasee kaikkiin muihin visuaalisiin aktiviteetteihin nappia painamalla.</p>
+ * <p>Paatavoitteena on, etta kayttaja tayttaa paivan lomakkeeseen tiedot.</p>
+ * @author Reima
+ * @since 15.12.2021
+ */
 public class LomakeActivity extends AppCompatActivity {
 
     Switch uniSwitch, liikuntaSwitch, syontiSwitch;
@@ -19,7 +25,12 @@ public class LomakeActivity extends AppCompatActivity {
     Button tallennusButton, edistymisButton, viikkotavoiteButton, tietojenmuutosButton;
     Viikkotavoitetietokanta viikkotavoitetietokanta;
     Paivalomaketietokanta paivalomaketietokanta;
-
+    /**
+     * <p>Oncreate-metodissa se niin kutsuttu magia tapahtuu. Ensin aktiviteetin nakymat haetaan layoutista ja kartoitetaan.</p>
+     * <p>Sitten asetetaan kuuntelija tallennusnapille, jota painettaessa aktiviteetin nakymiin kirjatuista tiedoista luodaan paivalomake-olio ja tallennetaan se paivalomaketietokantaan.</p>
+     * <p>Jos tietojen tallennus onnistui, estetaan kayttajalta lomakkeen enempi muokkaus. Taman jalkeen kayttaja voi ainoastaan siirtya napeilla muihin aktiviteetteihin.</p>
+     * @param savedInstanceState    Aktiviteetille intentin antama tietokasa.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +61,19 @@ public class LomakeActivity extends AppCompatActivity {
         float minimiLiikunta = (float) viikkotavoitetietokanta.haeTamanViikonLiikuntaTavoite()/7;
 //-------------------------Onclick listenerit-------------------------------------------------------
         //Jos Switchit checkataan, asetetaan lomakkeisiin ne arvot, jotka tultaisiin tallentamaan tietokantaankin.
-        syontiSwitch.setOnClickListener(v -> {
+        uniSwitch.setOnClickListener(v -> {
             uniTeksti.setText("" + viikonUniTavoite);
+            uniTeksti.setEnabled(!uniTeksti.isEnabled());
         });
 
         liikuntaSwitch.setOnClickListener(v -> {
             liikuntaTeksti.setText("" + minimiLiikunta);
+            liikuntaTeksti.setEnabled(!liikuntaTeksti.isEnabled());
         });
 
         syontiSwitch.setOnClickListener(v -> {
             syontiTeksti.setText(""+ 1);
+            syontiTeksti.setEnabled(!syontiTeksti.isEnabled());
         });
 
         //Lomakkeen tallennuskuuntelija
@@ -119,7 +133,7 @@ public class LomakeActivity extends AppCompatActivity {
                     tallennusButton.setEnabled(false);
                 }
             } else {
-                Toast.makeText(LomakeActivity.this, "Tietoja ei tallennettu. Jos sinulla on viikolle lenkki- tai salitavoite, aseta lomakkeisiin numero.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LomakeActivity.this, "Tietojen tallennus epäonnistui. Raportoi bugista kehittäjälle", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -143,11 +157,14 @@ public class LomakeActivity extends AppCompatActivity {
     }
 //-------------------------/Onclick listenerit-------------------------------------------------------
     /**
-     * Aina lomakeaktiviteetin jatkuessa tarkistetaan onko tiedot syotetty talle paivalle. Jos on, lomaketta ei voi muokata.
+     * <p>Aina lomakeaktiviteetin jatkuessa tarkistetaan onko tiedot syotetty talle paivalle. Jos on, lomaketta ei voi muokata.</p>
+     * <p>Haetaan samalla myos viikkotavoitetietokannasta oikeat arvot switchien teksteihin.</p>
+     * <p>Jos kayttaja ei ole asettanut itselleen lenkki- tai salitavoitteita kuluvalle viikolle ei kysyta niita.</p>
      */
     @Override
     protected void onResume() {
         super.onResume();
+        //Lomakkeen muokkauksen esto
         if (paivalomaketietokanta.onkoLomakettaTallePaivalle()) {
             otsikko.setText(R.string.lomake_otsikko_tayttetty);
             uniSwitch.setEnabled(false);
@@ -170,6 +187,26 @@ public class LomakeActivity extends AppCompatActivity {
             lenkkiTeksti.setEnabled(true);
             saliTeksti.setEnabled(true);
             tallennusButton.setEnabled(true);
+        }
+        //Switchien tekstit
+        int viikonUniTavoite = viikkotavoitetietokanta.haeTamanViikonUniTavoite();
+        uniSwitch.setText("Nukuitko väh." + viikonUniTavoite + " tuntia?");
+
+        float paivanLiikuntaTavoite = (float) viikkotavoitetietokanta.haeTamanViikonLiikuntaTavoite() / 7;
+        liikuntaSwitch.setText("Kävelitkö väh." + paivanLiikuntaTavoite + " Km?");
+
+        /*Liikunta- ja salitavoitteiden tekstikentät muokattavissa, jos lomaketta ei ole tallennettu
+        tälle päivälle ja jos tavoite on asetettu.*/
+        if (viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite() == 0) {
+            lenkkiTeksti.setEnabled(false);
+        } else if (!paivalomaketietokanta.onkoLomakettaTallePaivalle()){
+            lenkkiTeksti.setEnabled(true);
+        }
+
+        if (viikkotavoitetietokanta.haeTamanViikonSaliTavoite() == 0) {
+            saliTeksti.setEnabled(false);
+        } else if (paivalomaketietokanta.onkoLomakettaTallePaivalle()){
+            saliTeksti.setEnabled(true);
         }
     }
 }

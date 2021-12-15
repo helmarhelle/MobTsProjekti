@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobTsProjekti">
         <activity
+            android:name=".LomakeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Aloitusnaytto"
             android:exported="true">
             <intent-filter>
@@ -27,7 +30,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
         </activity>
     </application>
 

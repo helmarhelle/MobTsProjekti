@@ -13,8 +13,7 @@ import java.util.ArrayList;
 /**
  * @author Reima
  * @since 9.12.2021
- * @version 14.12.2021
- * Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.
+ * @version 14.12.2021 <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
  */
 
 public class Paivalomaketietokanta extends SQLiteOpenHelper {
@@ -116,7 +115,7 @@ public class Paivalomaketietokanta extends SQLiteOpenHelper {
     /**
      * <p>Tarkistaa, onko tietokannassa lomake talle paivalle.</p>
      * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpaiva-sarakkeen ja vertaamalla sita tahan paivaan siten, etta tiedon tulee olla merkattu samana paivana.</p>
-     * @return Onko lomaketta tälle paivalle vai ei.
+     * @return Onko lomaketta talle paivalle vai ei.
      */
     public boolean onkoLomakettaTallePaivalle () {
 

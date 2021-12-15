@@ -50,17 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Testataan Päivälomaketietokannan toimivuuttaa
                 if (!paivalomaketietokanta.onkoLomakettaTallePaivalle()) {
-                    Log.d("Paivalomaketietokanta", "Ei löydy! Asetetaan testiarvot...");
-
-                    PaivaLomake paivaLomake = new PaivaLomake(false, true, false, 9,2.4f,2,3.2f,0);
-                    paivalomaketietokanta.lisaaTiedot(paivaLomake, MainActivity.this);
-
-                    Log.d("Paivalomaketietokanta", "Unimäärä: " + paivalomaketietokanta.haeTamanPaivanUnenKesto() + " h");
-                    Log.d("Paivalomaketietokanta", "Liikunnan määrä: " + paivalomaketietokanta.haeTamanPaivanLiikunnanPituus() + " Km");
-                    Log.d("Paivalomaketietokanta", "Ulkonasyöntejä: " + paivalomaketietokanta.haeTamanPaivanUlkonaSyonnit() + " Kpl");
-                    Log.d("Paivalomaketietokanta", "Lenkin pituus: " + paivalomaketietokanta.haeTamanPaivanLenkinpituus() + " Km");
-                    Log.d("Paivalomaketietokanta", "Salikäyntejä: " + paivalomaketietokanta.haeTamanPaivanSaliKaynnit()+ " Kpl");
-
+                    Log.d("Paivalomaketietokanta", "Ei löydy merkintää tälle päivälle!");
                 }else {
                     Log.d("Paivalomaketietokanta", "Löytyi!");
                     Log.d("Paivalomaketietokanta", "Unimäärä: " + paivalomaketietokanta.haeTamanPaivanUnenKesto() + " h");
@@ -68,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Paivalomaketietokanta", "Ulkonasyöntejä: " + paivalomaketietokanta.haeTamanPaivanUlkonaSyonnit() + " Kpl");
                     Log.d("Paivalomaketietokanta", "Lenkin pituus: " + paivalomaketietokanta.haeTamanPaivanLenkinpituus() + " Km");
                     Log.d("Paivalomaketietokanta", "Salikäyntejä: " + paivalomaketietokanta.haeTamanPaivanSaliKaynnit()+ " Kpl");
+
+
+                    //Muita testejä
                     Log.d("KUUKAUDEN UNITAVOITTEET", "Viikko 1: " + viikkotavoitetietokanta.haeKuukaudenTavoitteet(12, "uni").get(0)+ " tuntia");
                     Log.d("VIIKON UNISAAVUTUKSET", "Päivä 1: " + paivalomaketietokanta.haeTamanViikonSaavutukset("uni", MainActivity.this).get(0)+ " tuntia");
-
-
-
-
                 }
+                //Siirrytään joka tapauksessa lomakeActivityyn:
+                Intent intent = new Intent(MainActivity.this, LomakeActivity.class);
+                startActivity(intent);
             }
         }
 

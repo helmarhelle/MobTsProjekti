@@ -12,14 +12,13 @@ import android.widget.Toast;
 /**
  * @author Reima
  * @since 8.12.2021
- * @version 14.12.2021
- * <p>Aktiviteetti, jossa asetetaan kayttajan perustiedot.</p>
+ * @version 15.12.2021 <p>Aktiviteetti, jossa asetetaan kayttajan perustiedot.</p>
  */
 public class KayttajanTiedotActivity extends AppCompatActivity {
 
     EditText ika, pituus, paino;
     Button tallennus;
-
+    Kayttajatietokanta kayttajatietokanta;
     /**
      * <p>Oncreate-metodissa se niin kutsuttu magia tapahtuu. Ensin aktiviteetin nakymat haetaan layoutista ja kartoitetaan.</p>
      * <p>Sitten asetetaan kuuntelija tallennusnapille, jota painettaessa aktiviteetin nakymiin kirjatuista tiedoista luodaan kayttaja-olio ja tallennetaan se kayttajatietokantaan.</p>
@@ -31,6 +30,8 @@ public class KayttajanTiedotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kayttajan_tiedot);
 
+        //Tietokannan alustus
+        kayttajatietokanta = new Kayttajatietokanta(KayttajanTiedotActivity.this);
         //View-kartoitukset
         ika = findViewById(R.id.ikaView);
         pituus = findViewById(R.id.pituusView);
@@ -56,11 +57,24 @@ public class KayttajanTiedotActivity extends AppCompatActivity {
 
             //Jos kayttajan tiedot olivat järkeviä, kirjataan ne tietokantaan
             if (onnistuiko) {
-                Kayttajatietokanta kayttajatietokanta = new Kayttajatietokanta(KayttajanTiedotActivity.this);
                 kayttajatietokanta.lisaaTiedot(kayttaja);
                 Intent intent = new Intent(KayttajanTiedotActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Kun aktiviteetti käynnistetään, asetetaan mahdollisesti löytyvät arvot lomakkeisiin
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (kayttajatietokanta.onkoTietokantaa()) {
+            ika.setText(Integer.toString(kayttajatietokanta.haeIka()));
+            pituus.setText(Integer.toString(kayttajatietokanta.haePituus()));
+            paino.setText(Float.toString(kayttajatietokanta.haePaino()));
+        }
     }
 }

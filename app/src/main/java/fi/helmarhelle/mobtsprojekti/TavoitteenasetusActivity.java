@@ -12,8 +12,7 @@ import android.widget.Toast;
 /**
  * @author Reima
  * @since 9.12.2021
- * @version 14.12.2021
- * <p>Aktiviteetti, jossa asetetaan kayttajan tavoitteet tulevalle viikolle.</p>
+ * @version 15.12.2021 <p>Aktiviteetti, jossa asetetaan kayttajan tavoitteet tulevalle viikolle.</p>
  */
 public class TavoitteenasetusActivity extends AppCompatActivity {
 
@@ -79,6 +78,21 @@ public class TavoitteenasetusActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    /**
+     * Kun aktiviteetti käynnistetään, asetetaan mahdollisesti löytyvät arvot lomakkeisiin
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (viikkotavoitetietokanta.onkoTavoitettaKuluvalleViikolle()) {
+            uni.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonUniTavoite()));
+            liikunta.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonLiikuntaTavoite()));
+            ravinto.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonUlkonasyonnitTavoite()));
+            lenkki.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite()));
+            sali.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonSaliTavoite()));
+        }
     }
 
 

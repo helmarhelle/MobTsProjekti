@@ -3,8 +3,7 @@ package fi.helmarhelle.mobtsprojekti;
 /**
  * @author Reima
  * @since 7.12.2021
- * @version 14.12.2021
- * <p>Luokka viikkotavoite-olion luomiseen, jotka voidaan tallentaa Viikkotavoite-tietokantaan.</p>
+ * @version 14.12.2021 <p>Luokka viikkotavoite-olion luomiseen, jotka voidaan tallentaa Viikkotavoite-tietokantaan.</p>
  */
 public class Viikkotavoite {
 

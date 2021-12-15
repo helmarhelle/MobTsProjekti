@@ -15,8 +15,7 @@ import java.util.List;
 /**
  * @author Reima
  * @since 7.12.2021
- * @version 14.12.2021
- * <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
+ * @version 14.12.2021 <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
  */
 
 public class Viikkotavoitetietokanta extends SQLiteOpenHelper {

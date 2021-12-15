@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 /**
  * @author  Reima
- * @version 7.12.2021
- * Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.
- *
+ * @since 7.12.2021
+ * @version 14.12.2021
+ * <p>Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.</p>
  */
 
 public class Kayttajatietokanta extends SQLiteOpenHelper {
@@ -28,10 +28,18 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
     private final String PITUUS_SARAKE = "PITUUS";
     private final String PAINO_SARAKE = "PAINO";
 
+    /**
+     * <p>Konstruktori Kayttajatietokantaoliolle</p>
+     * @param context   aktiviteetti, jossa luokkaa kaytetaan.
+     */
     public Kayttajatietokanta (@Nullable Context context) {
         super(context, "kayttaja.db", null, 1);
     }
 
+    /**
+     * <p>Varsinainen tietokannan luontimetodi - luo taulun ja sarakkeet.</p>
+     * @param db    Tietokanta
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
@@ -40,11 +48,22 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         db.execSQL(taulunLuontiLause_SQL);
     }
 
+    /**
+     * <p>Tietokannan paivitysmetodi - ei tarvita tassa ohjelmassa</p>
+     * @param db    tietokannan nimi
+     * @param oldVersion    vanha versionumero
+     * @param newVersion    uusi versionumero
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
+    /**
+     * <p>Tallettaa ajankohdan ja kayttajaolion tiedot tietokantaan.</p>
+     * @param kayttaja  Alustettu kayttajaolio, josta tiedot luetaan.
+     * @return  Onnistuiko tietojen tallentaminen vai ei.
+     */
     public boolean lisaaTiedot (Kayttaja kayttaja) {
 
         SQLiteDatabase tietokanta = this.getWritableDatabase();
@@ -62,8 +81,8 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Metodi tarkistaa, onko tietokannassa vähintään 1 rivi tietoa
-     * @return palauttaa totuusarvon
+     * <p>Tarkistaa, onko tietokannassa vähintään 1 rivi tietoa.</p>
+     * @return Onko tietokantaa luotu vai ei.
      */
     public boolean onkoTietokantaa () {
 
@@ -85,8 +104,8 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri iälle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri kayttajan ialle</p>
+     * @return Ian kokonaislukuna (vuosina).
      */
     public int haeIka() {
 
@@ -104,8 +123,8 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         return haettuIka;
     }
     /**
-     * Getteri pituudelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri kayttajan pituudelle</p>
+     * @return Pituuden kokonaislukuna (cm).
      */
     public int haePituus () {
 
@@ -123,8 +142,8 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         return haettuPituus;
     }
     /**
-     * Getteri painolle
-     * @return palauttaa liukuluvun
+     * <p>Getteri kayttajan painolle.</p>
+     * @return Kayttajan painon liukulukuna (Kg).
      */
     public float haePaino () {
 

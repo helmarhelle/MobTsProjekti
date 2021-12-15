@@ -10,12 +10,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- *
+ * @author Reima
+ * @since 8.12.2021
+ * @version 14.12.2021
+ * <p>Aktiviteetti, jossa asetetaan kayttajan perustiedot.</p>
  */
 public class KayttajanTiedotActivity extends AppCompatActivity {
 
     EditText ika, pituus, paino;
     Button tallennus;
+
+    /**
+     * <p>Oncreate-metodissa se niin kutsuttu magia tapahtuu. Ensin aktiviteetin nakymat haetaan layoutista ja kartoitetaan.</p>
+     * <p>Sitten asetetaan kuuntelija tallennusnapille, jota painettaessa aktiviteetin nakymiin kirjatuista tiedoista luodaan kayttaja-olio ja tallennetaan se kayttajatietokantaan.</p>
+     * <p>Lopuksi, jos tietojen tallennus onnistui, siirrytaan takaisin lomakeaktiviteettiin.</p>
+     * @param savedInstanceState    Aktiviteetille intentin antama tietokasa.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

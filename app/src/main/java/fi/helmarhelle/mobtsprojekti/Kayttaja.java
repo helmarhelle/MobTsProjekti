@@ -1,51 +1,49 @@
 package fi.helmarhelle.mobtsprojekti;
 
-import androidx.annotation.NonNull;
-
+/**
+ * @author Reima
+ * @since 6.12.2021
+ * @version 14.12.2021
+ * <p>Luokka kayttaja-olion luomiseen, jotka voidaan tallentaa Kayttaja-tietokantaan.</p>
+ */
 public class Kayttaja {
 
     private int ika;
     private int pituusCM;
     private float painoKG;
 
+    /**
+     * <p>Tavallinen konstruktori joka asettaa arvot instanssimuuttujille.</p>
+     * @param ika   Kayttajan ika vuosina.
+     * @param pituusCM  Kayttajan pituus senttimetreina.
+     * @param painoKG   Kayttajan paino kilogrammoina.
+     */
     public Kayttaja(int ika, int pituusCM, float painoKG) {
         this.ika = ika;
         this.pituusCM = pituusCM;
         this.painoKG = painoKG;
     }
 
-    //Getterit ja setterit
+    //Getterit
+    /**
+     * <p>Getteri kayttajan ialle.</p>
+     * @return  Palauttaa kayttajan ian kokonaislukuna.
+     */
     public int getIka() {
         return ika;
     }
-
-    public void setIka(int ika) {
-        this.ika = ika;
-    }
-
+    /**
+     * <p>Getteri kayttajan painolle.</p>
+     * @return  Palauttaa kayttajan painon liukulukuna (Kg).
+     */
     public float getPainoKG() {
         return painoKG;
     }
-
-    public void setPainoKG(int painoKG) {
-        this.painoKG = painoKG;
-    }
-
+    /**
+     * <p>Getteri kayttajan pituudelle.</p>
+     * @return  Palauttaa kayttajan pituuden senttimetreina.
+     */
     public int getPituusCM() {
         return pituusCM;
-    }
-
-    public void setPituusCM(int pituusCM) {
-        this.pituusCM = pituusCM;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "Kayttaja{" +
-                "ika=" + ika +
-                ", paino=" + painoKG +
-                ", pituus=" + pituusCM +
-                '}';
     }
 }

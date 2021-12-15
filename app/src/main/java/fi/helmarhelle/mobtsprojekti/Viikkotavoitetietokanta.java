@@ -14,10 +14,9 @@ import java.util.List;
 
 /**
  * @author Reima
- * @version 14.12.2021
  * @since 7.12.2021
+ * @version 14.12.2021
  * <p>Viikkotavoitetietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan jokaisen viikon tavoitteet.</p>
- *
  */
 
 public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
@@ -36,10 +35,18 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     private final String LENKKI_SARAKE = "LENKKI";
     private final String SALI_SARAKE = "SALI";
 
+    /**
+     * <p>Konstruktori Viikkotavoitetietokantaoliolle.</p>
+     * @param context   aktiviteetti, jossa luokkaa kaytetaan.
+     */
     public Viikkotavoitetietokanta (@Nullable Context context) {
         super(context, "tavoite.db", null, 1);
     }
 
+    /**
+     * <p>Varsinainen tietokannan luontimetodi - luo taulun ja sarakkeet.</p>
+     * @param db    Tietokanta
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String taulunLuontiLause_SQL = "CREATE TABLE " + TIETOKANNAN_NIMI + " (" + ID +
@@ -48,11 +55,22 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         db.execSQL(taulunLuontiLause_SQL);
     }
 
+    /**
+     * <p>Tietokannan paivitysmetodi - ei tarvita tassa ohjelmassa</p>
+     * @param db    tietokannan nimi
+     * @param oldVersion    vanha versionumero
+     * @param newVersion    uusi versionumero
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
+    /**
+     * <p>Tallettaa ajankohdan ja kayttajaolion tiedot tietokantaan.</p>
+     * @param viikkotavoite  Alustettu viikkotavoiteolio, josta tiedot luetaan.
+     * @return  Onnistuiko tietojen tallentaminen vai ei.
+     */
     public boolean lisaaTiedot (Viikkotavoite viikkotavoite) {
 
         SQLiteDatabase tietokanta = this.getWritableDatabase();
@@ -74,8 +92,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
 
     /**
      * <p>tarkistaa, onko tietokannassa tavoitetta kuluvalle viikolle.</p>>
-     * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpäivä-sarakkeen ja vertaamalla sitä tähän päivään siten, että tiedon tulee olla max. 6 päivää vanhaa.</p>
-     * @return Onko tavoitetta tälle viikolle vai ei.
+     * <p>Tekee sen valitsemalla SQL-hakulausekkeella tietokannasta vuodenpaiva-sarakkeen ja vertaamalla sita tahan paivaan siten, etta tiedon tulee olla max. 6 paivaa vanhaa.</p>
+     * @return Onko tavoitetta talle viikolle vai ei.
      */
     public boolean onkoTavoitettaKuluvalleViikolle () {
 
@@ -106,7 +124,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         return false;
     }
     /**
-     * Getteri tämän viikon tavoitteen tallennuspaivalle.
+     * <p>Getteri taman viikon tavoitteen tallennuspaivalle.</p>
      * @return vuodenpaivan kokonaislukuna.
      */
     public int haeTamanViikonViikkotavoitteenTallennusPaiva() {
@@ -126,7 +144,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri tämän viikon unitavoitteelle
+     * <p>Getteri taman viikon unitavoitteelle.</p>
      * @return unitavoitteen kokonaislukuna
      */
     public int haeTamanViikonUniTavoite() {
@@ -146,7 +164,7 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri valitun kuukauden valituille tavoitteille.
+     * <p>Getteri valitun kuukauden valituille tavoitteille.</p>
      * @param kuukausi haluttu kuukausi kokonaislukuna.
      * @param tavoite joko uni, liikunta, syonti, lenkki tai sali.
      * @return listan, jossa jokaisen loytyneen viikon tavoite on oma alkionsa (indeksit valilla 0-3).
@@ -185,8 +203,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri tämän viikon liikuntatavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri taman viikon liikuntatavoitteelle</p>
+     * @return Taman viikon liikuntatavoitteen kokonaislukuna (Km).
      */
     public int haeTamanViikonLiikuntaTavoite() {
 
@@ -204,8 +222,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         return haettuTavoite;
     }
     /**
-     * Getteri tämän viikon ulkonasyömistavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri taman viikon ulkonasyontien tavoitemaaralle.</p>>
+     * @return Taman viikon ulkonasyomistavoitteen kokonaislukuna.
      */
     public int haeTamanViikonUlkonasyonnitTavoite() {
 
@@ -224,8 +242,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * Getteri tämän viikon lenkkien pituustavoitteelle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri taman viikon lenkkien kokonaispituustavoitteelle</p>
+     * @return Lenkkien kokonaispituustavoitteen kokonaislukuna (Km).
      */
     public int haeTamanViikonLenkkiTavoite() {
 
@@ -243,8 +261,8 @@ public class Viikkotavoitetietokanta extends SQLiteOpenHelper {
         return haettuTavoite;
     }
     /**
-     * Getteri tämän viikon salitreenien tavoitemäärälle
-     * @return palauttaa kokonaisluvun
+     * <p>Getteri taman viikon salitreenien tavoitemaaralle.</p>
+     * @return Taman viikon salitreenien tavoitemaaran kokonaislukuna.
      */
     public int haeTamanViikonSaliTavoite() {
 

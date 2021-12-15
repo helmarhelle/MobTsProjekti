@@ -3,8 +3,8 @@ package fi.helmarhelle.mobtsprojekti;
 
 /**
  * @author Reima
- * @version 9.12.2021
  * @since 9.12.2021
+ * @version 14.12.2021
  * <p>Luokka päivittäin täytettävien lomakkeiden luomiseksi oliomuotoon, jotka voidaan tallentaa Paivalomake-tietokantaan</p>
  */
 public class PaivaLomake {
@@ -21,6 +21,17 @@ public class PaivaLomake {
     private float lenkkiKilometritKM;
     private int saliKaynnitKPL;
 
+    /**
+     * <p>Tavallinen konstruktori joka asettaa arvot instanssimuuttujille.</p>
+     * @param nukuttuTarpeeksi  Onko nukuttu tarpeeksi.
+     * @param kaveltyTarpeeksi Onko kavelty tarpeeksi.
+     * @param syotyUlkona   Onko syoty ulkona.
+     * @param uniH  Unen maara (tunteina).
+     * @param liikuntaKM    Liikunnan maara kilometreina.
+     * @param ulkonaSyonnitKPL  Ulkonasyontien maara.
+     * @param lenkkiKilometritKM  Lenkin yhteispituus kilometreina.
+     * @param saliKaynnitKPL    Salikayntien maara.
+     */
     public PaivaLomake(boolean nukuttuTarpeeksi, boolean kaveltyTarpeeksi, boolean syotyUlkona, int uniH, float liikuntaKM, int ulkonaSyonnitKPL, float lenkkiKilometritKM, int saliKaynnitKPL) {
         this.nukuttuTarpeeksi = nukuttuTarpeeksi;
         this.kaveltyTarpeeksi = kaveltyTarpeeksi;
@@ -32,68 +43,62 @@ public class PaivaLomake {
         this.saliKaynnitKPL = saliKaynnitKPL;
     }
 
-    //Getterit ja setterit
+    //Getterit
+    /**
+     * <p>Getteri tarpeeksi nukkumiselle Paivalomaketietokantaa varten.</p>
+     * @return onko nukuttu tarpeeksi vai ei.
+     */
     public boolean isNukuttuTarpeeksi() {
         return nukuttuTarpeeksi;
     }
-
-    public void setNukuttuTarpeeksi(boolean nukuttuTarpeeksi) {
-        this.nukuttuTarpeeksi = nukuttuTarpeeksi;
-    }
-
+    /**
+     * <p>Getteri tarpeeksi liikkumiselle Paivalomaketietokantaa varten.</p>
+     * @return Onko liikuttu tarpeeksi vai ei.
+     */
     public boolean isKaveltyTarpeeksi() {
         return kaveltyTarpeeksi;
     }
-
-    public void setKaveltyTarpeeksi(boolean kaveltyTarpeeksi) {
-        this.kaveltyTarpeeksi = kaveltyTarpeeksi;
-    }
-
+    /**
+     * <p>Getteri ulkonasyonnille Paivalomaketietokantaa varten.</p>
+     * @return Onko syoty ulkona vai ei.
+     */
     public boolean isSyotyUlkona() {
         return syotyUlkona;
     }
-
-    public void setSyotyUlkona(boolean syotyUlkona) {
-        this.syotyUlkona = syotyUlkona;
-    }
-
+    /**
+     * <p>Getteri unen maaralle Paivalomaketietokantaa varten.</p>
+     * @return uni tunteina.
+     */
     public int getUniH() {
         return uniH;
     }
-
-    public void setUniH(int uniH) {
-        this.uniH = uniH;
-    }
-
+    /**
+     * <p>Getteri liikunnan maaralle Paivalomaketietokantaa varten.</p>
+     * @return Liikunnan maaran liukulukuna (Km).
+     */
     public float getLiikuntaKM() {
         return liikuntaKM;
     }
-
-    public void setLiikuntaKM(float liikuntaKM) {
-        this.liikuntaKM = liikuntaKM;
-    }
-
+    /**
+     * <p>Getteri ulkonasyontien maaralle Paivalomaketietokantaa varten.</p>
+     * @return Ulkonasyonnit kokonaislukuna.
+     */
     public int getUlkonaSyonnitKPL() {
         return ulkonaSyonnitKPL;
     }
-
-    public void setUlkonaSyonnitKPL(int ulkonaSyonnitKPL) {
-        this.ulkonaSyonnitKPL = ulkonaSyonnitKPL;
-    }
-
+    /**
+     * <p>Getteri lenkkien pituudelle Paivalomaketietokantaa varten.</p>
+     * @return Lenkkien pituuden liukulukuna (Km).
+     */
     public float getLenkkiKilometritKM() {
         return lenkkiKilometritKM;
     }
-
-    public void setLenkkiKilometritKM(float lenkkiKilometritKM) {
-        this.lenkkiKilometritKM = lenkkiKilometritKM;
-    }
-
+    /**
+     * <p>Getteri salikayntien maaralle Paivalomaketietokantaa varten.</p>
+     * @return Salikaynnit kokonaislukuna.
+     */
     public int getSaliKaynnitKPL() {
         return saliKaynnitKPL;
     }
 
-    public void setSaliKaynnitKPL(int saliKaynnitKPL) {
-        this.saliKaynnitKPL = saliKaynnitKPL;
-    }
 }

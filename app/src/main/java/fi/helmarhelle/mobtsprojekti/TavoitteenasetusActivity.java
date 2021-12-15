@@ -9,12 +9,25 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+/**
+ * @author Reima
+ * @since 9.12.2021
+ * @version 14.12.2021
+ * <p>Aktiviteetti, jossa asetetaan kayttajan tavoitteet tulevalle viikolle.</p>
+ */
 public class TavoitteenasetusActivity extends AppCompatActivity {
 
     Viikkotavoitetietokanta viikkotavoitetietokanta;
     EditText uni, liikunta, ravinto, lenkki, sali;
     Switch lenkkiSwitch, saliSwitch;
     Button tallennus;
+
+    /**
+     * <p>Oncreate-metodissa se niin kutsuttu magia tapahtuu. Ensin aktiviteetin nakymat haetaan layoutista ja kartoitetaan.</p>
+     * <p>Sitten asetetaan kuuntelija tallennusnapille, jota painettaessa aktiviteetin nakymiin kirjatuista tiedoista luodaan viikkotavoite-olio ja tallennetaan se viikkotavoitetietokantaan.</p>
+     * <p>Lopuksi, jos tietojen tallennus onnistui, siirrytaan takaisin lomakeaktiviteettiin.</p>
+     * @param savedInstanceState    Aktiviteetille intentin antama tietokasa.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

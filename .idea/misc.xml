@@ -8,15 +8,9 @@
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_kuukauden_edistyminen.xml" value="0.12447916666666667" />
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_tavoitteenasetus.xml" value="0.4" />
-        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_viikon_edistyminen.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/helkk/AndroidStudioProjects/MobTsProjekti/app/src/main/res/layout/activity_viikon_edistyminen.xml" value="0.1" />
       </map>
     </option>
-  </component>
-  <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$" />
-    <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
-    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
-    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../../../../koulu/ProjektiJAVADOC_testi" />

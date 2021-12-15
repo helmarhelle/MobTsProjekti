@@ -50,7 +50,7 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
         SQLiteDatabase tietokanta = this.getWritableDatabase();
         ContentValues sisalto = new ContentValues();
 
-        sisalto.put(PAIVA_SARAKE, LocalDateTime.now().getDayOfMonth());
+        sisalto.put(PAIVA_SARAKE, LocalDateTime.now(). getDayOfMonth());
         sisalto.put(KUUKAUSI_SARAKE, LocalDateTime.now().getMonth().getValue());
         sisalto.put(VUOSI_SARAKE, LocalDateTime.now().getYear());
         sisalto.put(IKA_SARAKE, kayttaja.getIka());

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MobTsProjekti</string>
 
+    <string name="mainactivity_teksti">LADATAAN...</string>
     <!--Käyttäjänasetus-->
     <string name="kayttajantiedot_otsikko">Käyttäjän tiedot</string>
     <string name="kayttajantiedot_ika">Kuinka vanha olet?</string>
@@ -18,4 +19,20 @@
     <string name="tavoitteenasetus_sali_switch">Aiotko käydä salilla?</string>
     <string name="tavoitteenasetus_sali_tieto">Montako kertaa?</string>
     <string name="tavoitteenasetus_tallennus">Tallenna</string>
+
+    <!--Lomakeaktiviteetti-->
+    <string name="lomake_otsikko">Miten päiväsi on sujunut?</string>
+    <string name="lomake_otsikko_tayttetty">Päivä tallennettu! :)</string>
+    <string name="lomake_aktiviteetinvaihto_kayttajantiedot">Muuta tietojasi</string>
+    <string name="lomake_aktiviteetinvaihto_viikkotavoite">Muuta viikkotavoitetta</string>
+    <string name="lomake_aktiviteetinvaihto_edistyminen">Edistymisesi</string>
+    <string name="lomake_uni_switch">Nukuitko tarpeeksi?</string>
+    <string name="lomake_liikunta_switch">Kävelitkö tarpeeksi?</string>
+    <string name="lomake_syonti_switch">Söitkö ulkona?</string>
+    <string name="lomake_uni">Montako tuntia nukuit?*</string>
+    <string name="lomake_liikunta">Kuinka monta kilometriä kävelit?*</string>
+    <string name="lomake_syonti">Monestiko söit tänään ulkona?*</string>
+    <string name="lomake_lenkki">Kuinka monta kilometriä lenkkeilit yhteensä?</string>
+    <string name="lomake_sali">Montako kertaa kävit tänään salilla?</string>
+    <string name="lomake_tallennus">Tallenna</string>
 </resources>

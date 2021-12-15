@@ -10,10 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobTsProjekti">
         <activity
-            android:name=".KuukaudenEdistyminen"
-            android:exported="false" />
-        <activity
-            android:name=".ViikonEdistyminen"
+            android:name=".LomakeActivity"
             android:exported="false" />
         <activity
             android:name=".Aloitusnaytto"
@@ -32,7 +29,14 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true"/>
+        <activity
+            android:name=".ViikonEdistyminen"
+            android:exported="false"/>
+        <activity
+            android:name=".KuukaudenEdistyminen"
+            android:exported="false" />
+
     </application>
 
 </manifest>

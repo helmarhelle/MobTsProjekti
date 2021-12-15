@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author  Reima
  * @since 7.12.2021
- * @version 14.12.2021
- * <p>Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.</p>
+ * @version 14.12.2021 <p>Käyttäjätietokanta -luokka toimii rajapintana SQLite-tietokannalle johon tallennetaan Käyttäjän tiedot.</p>
  */
 
 public class Kayttajatietokanta extends SQLiteOpenHelper {
@@ -81,7 +80,7 @@ public class Kayttajatietokanta extends SQLiteOpenHelper {
     }
 
     /**
-     * <p>Tarkistaa, onko tietokannassa vähintään 1 rivi tietoa.</p>
+     * <p>Tarkistaa, onko tietokannassa vahintaan 1 rivi tietoa.</p>
      * @return Onko tietokantaa luotu vai ei.
      */
     public boolean onkoTietokantaa () {

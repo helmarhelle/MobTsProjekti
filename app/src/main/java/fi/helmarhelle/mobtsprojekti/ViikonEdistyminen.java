@@ -5,17 +5,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
 
 public class ViikonEdistyminen extends AppCompatActivity {
     Viikkotavoitetietokanta vtt;
     Paivalomaketietokanta plt;
     float Unimuuttuja;
+    float Kavelymuuttuja;
+    float Juoksumuuttuja;
+    float Salimuuttuja;
+    float Syontimuuttuja;
     float Uni;
+    float Kavely;
+    int Syo;
+    float Lenkki;
+    int Sali;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +37,99 @@ public class ViikonEdistyminen extends AppCompatActivity {
         setContentView(R.layout.activity_viikon_edistyminen);
         vtt = new Viikkotavoitetietokanta(ViikonEdistyminen.this);
         plt = new Paivalomaketietokanta(ViikonEdistyminen.this);
-        Unimuuttuja = vtt.haeTamanViikonUniTavoite()*7;
-        Uni = plt.haeTamanViikonSaavutukset("uni", ViikonEdistyminen.this).get(0);
+        Unimuuttuja = vtt.haeTamanViikonUniTavoite();
+        Kavelymuuttuja = vtt.haeTamanViikonLiikuntaTavoite();
+        Syontimuuttuja = vtt.haeTamanViikonUlkonasyonnitTavoite();
+        Salimuuttuja = vtt.haeTamanViikonSaliTavoite();
+        Juoksumuuttuja = vtt.haeTamanViikonLenkkiTavoite();
+        ArrayList<Float> uniSaavutukset = new ArrayList<>();
+        ArrayList<Float> kavelySaavutukset = new ArrayList<>();
+        ArrayList<Integer> syoSaavutukset = new ArrayList<>();
+        ArrayList<Integer> saliSaavutukset = new ArrayList<>();
+        ArrayList<Float> juoksuSaavutukset = new ArrayList<>();
+
+
+        int i = 0;
+        try {
+            do {
+                uniSaavutukset.add(plt.haeTamanViikonSaavutukset("uni", ViikonEdistyminen.this).get(i));
+                i++;
+            } while (i<=6);
+
+        } catch (Exception e) {
+            Log.d("unisaavutustenhaku",  "Tapahtui virhe kieroksella " + i);
+            while(i<=6){
+                uniSaavutukset.add(0f);
+                i++;
+            }
+        }
+        i=0;
+        try {
+            do {
+                kavelySaavutukset.add(plt.haeTamanViikonSaavutukset("liikunta", ViikonEdistyminen.this).get(i));
+                i++;
+            } while (i<=6);
+
+        } catch (Exception e) {
+            Log.d("kavelysaavutustenhaku",  "Tapahtui virhe kieroksella " + i);
+            while(i<=6){
+                kavelySaavutukset.add(0f);
+                i++;
+            }
+        }
+        i=0;
+        try {
+            do {
+                syoSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("syonti", ViikonEdistyminen.this).get(i)));
+                i++;
+            } while (i<=6);
+
+        } catch (Exception e) {
+            Log.d("Syöntisaavutustenhaku",  "Tapahtui virhe kieroksella " + i);
+            while(i<=6){
+                syoSaavutukset.add(0);
+                i++;
+            }
+        }
+        i=0;
+        try {
+            do {
+                juoksuSaavutukset.add(plt.haeTamanViikonSaavutukset("lenkki", ViikonEdistyminen.this).get(i));
+                i++;
+            } while (i<=6);
+
+        } catch (Exception e) {
+            Log.d("Lenkkisaavutustenhaku",  "Tapahtui virhe kieroksella " + i);
+            while(i<=6){
+                juoksuSaavutukset.add(0f);
+                i++;
+            }
+        }
+        i=0;
+        try {
+            do {
+                saliSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("sali", ViikonEdistyminen.this).get(i)));
+                i++;
+            } while (i<=6);
+
+        } catch (Exception e) {
+            Log.d("Salisaavutustenhaku",  "Tapahtui virhe kieroksella " + i);
+            while(i<=6){
+                saliSaavutukset.add(0);
+                i++;
+            }
+        }
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0,0),
-                new DataPoint(1, Unimuuttuja/7),
-                new DataPoint(2, Unimuuttuja*2/7),
-                new DataPoint(3, Unimuuttuja*3/7),
-                new DataPoint(4, Unimuuttuja*4/7),
-                new DataPoint(5,Unimuuttuja*5/7),
-                new DataPoint(6, Unimuuttuja*6/7),
-                new DataPoint(7, Unimuuttuja),
+                new DataPoint(0, 0),
+                new DataPoint(1, Unimuuttuja),
+                new DataPoint(2, Unimuuttuja*2),
+                new DataPoint(3, Unimuuttuja*3),
+                new DataPoint(4, Unimuuttuja*4),
+                new DataPoint(5, Unimuuttuja*5),
+                new DataPoint(6, Unimuuttuja*6),
+                new DataPoint(7, Unimuuttuja*7)
 
         });
         graph.addSeries(series);
@@ -43,28 +137,28 @@ public class ViikonEdistyminen extends AppCompatActivity {
 
         LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
-                new DataPoint(1, Uni),
-                new DataPoint(2, Uni += 7),
-                new DataPoint(3, Uni += 5),
-                new DataPoint(4,  Uni += 11),
-                new DataPoint(5, Uni += 8),
-                new DataPoint(6, Uni += 7),
-                new DataPoint(7, Uni += 9)
+                new DataPoint(1, uniSaavutukset.get(0)),
+                new DataPoint(2, uniSaavutukset.get(0) + uniSaavutukset.get(1)),
+                new DataPoint(3, uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2)),
+                new DataPoint(4, uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)),
+                new DataPoint(5, uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4)),
+                new DataPoint(6, uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)),
+                new DataPoint(7, uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)+ uniSaavutukset.get(6))
         });
         graph.addSeries(series2);
         series2.setColor(Color.RED);
-        graph.setTitle("Viikon edistymisesi");
+
 
         GraphView graph1 = (GraphView) findViewById(R.id.graph1);
         LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
-                new DataPoint(1, Unimuuttuja/7),
-                new DataPoint(2, Unimuuttuja*2/7),
-                new DataPoint(3, Unimuuttuja*3/7),
-                new DataPoint(4, Unimuuttuja*4/7),
-                new DataPoint(5,Unimuuttuja*5/7),
-                new DataPoint(6, Unimuuttuja*6/7),
-                new DataPoint(7, Unimuuttuja),
+                new DataPoint(1, Kavelymuuttuja/7),
+                new DataPoint(2, Kavelymuuttuja*2/7),
+                new DataPoint(3, Kavelymuuttuja*3/7),
+                new DataPoint(4, Kavelymuuttuja*4/7),
+                new DataPoint(5,Kavelymuuttuja*5/7),
+                new DataPoint(6, Kavelymuuttuja*6/7),
+                new DataPoint(7, Kavelymuuttuja),
 
         });
         graph1.addSeries(series3);
@@ -72,29 +166,29 @@ public class ViikonEdistyminen extends AppCompatActivity {
 
         LineGraphSeries<DataPoint> series4 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
-                new DataPoint(1, Uni),
-                new DataPoint(2, Uni += 7),
-                new DataPoint(3, Uni += 5),
-                new DataPoint(4,  Uni += 11),
-                new DataPoint(5, Uni += 8),
-                new DataPoint(6, Uni += 7),
-                new DataPoint(7, Uni += 9)
+                new DataPoint(1, kavelySaavutukset.get(0)),
+                new DataPoint(2, kavelySaavutukset.get(0) + kavelySaavutukset.get(1)),
+                new DataPoint(3, kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2)),
+                new DataPoint(4, kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3)),
+                new DataPoint(5, kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4)),
+                new DataPoint(6, kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5)),
+                new DataPoint(7, kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5) + kavelySaavutukset.get(6))
         });
         graph1.addSeries(series4);
         series4.setColor(Color.RED);
-        graph.setTitle("Viikon edistymisesi");
+
 
 
         GraphView graph2 = (GraphView) findViewById(R.id.graph2);
         LineGraphSeries<DataPoint> series5 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
-                new DataPoint(1, Unimuuttuja/7),
-                new DataPoint(2, Unimuuttuja*2/7),
-                new DataPoint(3, Unimuuttuja*3/7),
-                new DataPoint(4, Unimuuttuja*4/7),
-                new DataPoint(5,Unimuuttuja*5/7),
-                new DataPoint(6, Unimuuttuja*6/7),
-                new DataPoint(7, Unimuuttuja),
+                new DataPoint(1, Syontimuuttuja/7),
+                new DataPoint(2, Syontimuuttuja*2/7),
+                new DataPoint(3, Syontimuuttuja*3/7),
+                new DataPoint(4, Syontimuuttuja*4/7),
+                new DataPoint(5,Syontimuuttuja*5/7),
+                new DataPoint(6, Syontimuuttuja*6/7),
+                new DataPoint(7, Syontimuuttuja),
 
         });
         graph2.addSeries(series5);
@@ -102,90 +196,104 @@ public class ViikonEdistyminen extends AppCompatActivity {
 
         LineGraphSeries<DataPoint> series6 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
-                new DataPoint(1, Uni),
-                new DataPoint(2, Uni += 7),
-                new DataPoint(3, Uni += 5),
-                new DataPoint(4,  Uni += 11),
-                new DataPoint(5, Uni += 8),
-                new DataPoint(6, Uni += 7),
-                new DataPoint(7, Uni += 9)
+                new DataPoint(1, syoSaavutukset.get(0)),
+                new DataPoint(2, syoSaavutukset.get(0) + syoSaavutukset.get(1) ),
+                new DataPoint(3, syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2)),
+                new DataPoint(4, syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3)),
+                new DataPoint(5, syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4)),
+                new DataPoint(6, syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4) + syoSaavutukset.get(5)),
+                new DataPoint(7, syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4) + syoSaavutukset.get(5) + syoSaavutukset.get(6))
         });
         graph2.addSeries(series6);
         series6.setColor(Color.RED);
-        graph.setTitle("Viikon edistymisesi");
+
 
 
         GraphView graph3 = (GraphView) findViewById(R.id.graph3);
+        TextView juoksuteksti =  findViewById(R.id.Lenkki);
+        TextView lenkkiTeksti = findViewById(R.id.Lenkki1);
+
+        if (vtt.haeTamanViikonLenkkiTavoite()>0){
         LineGraphSeries<DataPoint> series7 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
-                new DataPoint(1, Unimuuttuja/7),
-                new DataPoint(2, Unimuuttuja*2/7),
-                new DataPoint(3, Unimuuttuja*3/7),
-                new DataPoint(4, Unimuuttuja*4/7),
-                new DataPoint(5,Unimuuttuja*5/7),
-                new DataPoint(6, Unimuuttuja*6/7),
-                new DataPoint(7, Unimuuttuja),
+                new DataPoint(1, Juoksumuuttuja),
+                new DataPoint(2, Juoksumuuttuja*2),
+                new DataPoint(3, Juoksumuuttuja*3),
+                new DataPoint(4, Juoksumuuttuja*4),
+                new DataPoint(5, Juoksumuuttuja*5),
+                new DataPoint(6, Juoksumuuttuja*6),
+                new DataPoint(7, Juoksumuuttuja*7),
 
         });
         graph3.addSeries(series7);
+        lenkkiTeksti.setText("Olet juossut: " + Lenkki + "kilometriä ja tavoitteesi on " +vtt.haeTamanViikonLenkkiTavoite()+ "kilometriä.");
+        }else {
+            graph3.setVisibility(View.GONE);
+            juoksuteksti.setVisibility(View.GONE);
+            lenkkiTeksti.setVisibility(View.GONE);
+        }
 
 
         LineGraphSeries<DataPoint> series8 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
-                new DataPoint(1, Uni),
-                new DataPoint(2, Uni += 7),
-                new DataPoint(3, Uni += 5),
-                new DataPoint(4,  Uni += 11),
-                new DataPoint(5, Uni += 8),
-                new DataPoint(6, Uni += 7),
-                new DataPoint(7, Uni += 9)
+                new DataPoint(1, juoksuSaavutukset.get(0)),
+                new DataPoint(2, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1)),
+                new DataPoint(3, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2)),
+                new DataPoint(4, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3)),
+                new DataPoint(5, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4)),
+                new DataPoint(6, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4) + juoksuSaavutukset.get(5)),
+                new DataPoint(7, juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4) + juoksuSaavutukset.get(5) + juoksuSaavutukset.get(6))
         });
         graph3.addSeries(series8);
         series8.setColor(Color.RED);
-        graph.setTitle("Viikon edistymisesi");
 
 
-        if (vtt.haeTamanViikonSaliTavoite()>0){
+        GraphView graph4 = (GraphView) findViewById(R.id.graph4);
+        TextView saliteksti =  findViewById(R.id.Sali);
+        TextView saliTeksti1 = findViewById(R.id.Sali1);
 
-            GraphView graph4 = (GraphView) findViewById(R.id.graph4);
-            LineGraphSeries<DataPoint> series9 = new LineGraphSeries<>(new DataPoint[] {
-                    new DataPoint(0,0),
-                    new DataPoint(1, Unimuuttuja/7),
-                    new DataPoint(2, Unimuuttuja*2/7),
-                    new DataPoint(3, Unimuuttuja*3/7),
-                    new DataPoint(4, Unimuuttuja*4/7),
-                    new DataPoint(5,Unimuuttuja*5/7),
-                    new DataPoint(6, Unimuuttuja*6/7),
-                    new DataPoint(7, Unimuuttuja),
-
-            });
-            graph4.addSeries(series7);
-
-
-            LineGraphSeries<DataPoint> series10 = new LineGraphSeries<>(new DataPoint[] {
+        if (vtt.haeTamanViikonSaliTavoite()>0) {
+            LineGraphSeries<DataPoint> series9 = new LineGraphSeries<>(new DataPoint[]{
                     new DataPoint(0, 0),
-                    new DataPoint(1, Uni),
-                    new DataPoint(2, Uni += 7),
-                    new DataPoint(3, Uni += 5),
-                    new DataPoint(4,  Uni += 11),
-                    new DataPoint(5, Uni += 8),
-                    new DataPoint(6, Uni += 7),
-                    new DataPoint(7, Uni += 9)
+                    new DataPoint(1, Salimuuttuja),
+                    new DataPoint(2, Salimuuttuja*2),
+                    new DataPoint(3, Salimuuttuja*3),
+                    new DataPoint(4, Salimuuttuja*4),
+                    new DataPoint(5, Salimuuttuja*5),
+                    new DataPoint(6, Salimuuttuja*6),
+                    new DataPoint(7, Salimuuttuja*7),
             });
-            graph4.addSeries(series8);
-            series8.setColor(Color.RED);
-            graph.setTitle("Viikon edistymisesi");
-        } else{
-            graph4.setVisibility(View.GONE);
-        }
+            graph4.addSeries(series9);
 
 
+            LineGraphSeries<DataPoint> series10 = new LineGraphSeries<>(new DataPoint[]{
+                    new DataPoint(0, 0),
+                    new DataPoint(1, saliSaavutukset.get(0)),
+                    new DataPoint(2, saliSaavutukset.get(0) + saliSaavutukset.get(1)),
+                    new DataPoint(3, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2)),
+                    new DataPoint(4, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3)),
+                    new DataPoint(5, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4)),
+                    new DataPoint(6, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5)),
+                    new DataPoint(7, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5) + saliSaavutukset.get(6) )
+            });
+            graph4.addSeries(series10);
+            series9.setColor(Color.RED);
+            saliTeksti1.setText("Olet käynyt " +Sali+ " kertaa salillä, kun tavoitteesi on " + vtt.haeTamanViikonSaliTavoite() + " kertaa.");
+        }else{
+                graph4.setVisibility(View.GONE);
+                saliteksti.setVisibility(View.GONE);
+                saliTeksti1.setVisibility(View.GONE);
+            }
 
-        String joku = "tää";
+        Uni = uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)+ uniSaavutukset.get(6);
+        Kavely = kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5) + kavelySaavutukset.get(6);
+        Syo = syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4) + syoSaavutukset.get(5) + syoSaavutukset.get(6);
+        Lenkki = juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4) + juoksuSaavutukset.get(5) + juoksuSaavutukset.get(6);
+        Sali = saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5) + saliSaavutukset.get(6);
+
+
         TextView textView = findViewById(R.id.EdistyminenTeksti);
-        textView.setText("Tällä viikolla kävelit yhteensä" + plt.haeTamanViikonSaavutukset("liikunta", ViikonEdistyminen.this).get(0)+ "ja tavoitteesi oli" + joku + ".\n Nukuit: " + joku + "tuntia ja tavoitteesi oli "+ vtt.haeTamanViikonUniTavoite()+ "\n Ulkona söit" + joku +"kertaa, kun tavoitteesi oli "+ vtt.haeTamanViikonUlkonasyonnitTavoite());
-
-
+        textView.setText("Tällä viikolla olet nukkunut: " + Uni + "ja tavoitteesi oli" + vtt.haeTamanViikonUniTavoite() + ".\n Kävelit: " + Kavely + "kilometrtiä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ "kilometriä\nUlkona olet syönyt" + Syo +" kertaa, kun tavoitteesi on "+ vtt.haeTamanViikonUlkonasyonnitTavoite());
 
     }
 }

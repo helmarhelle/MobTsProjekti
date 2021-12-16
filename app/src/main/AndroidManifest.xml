@@ -37,9 +37,6 @@
             android:name=".ViikonEdistyminen"
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".KuukaudenEdistyminen"
-            android:exported="false" />
 
     </application>
 

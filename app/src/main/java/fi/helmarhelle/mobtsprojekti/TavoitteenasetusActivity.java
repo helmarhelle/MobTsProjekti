@@ -103,12 +103,15 @@ public class TavoitteenasetusActivity extends AppCompatActivity {
             sali.setText(Integer.toString(viikkotavoitetietokanta.haeTamanViikonSaliTavoite()));
         }
         //Jos lenkkitavoite tai salitavoite on asetettu, asetetaan switchitkin päälle
-        if (!(viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite() == 0)) {
-            lenkkiSwitch.setChecked(true);
+        if (viikkotavoitetietokanta.onkoTavoitettaKuluvalleViikolle()) {
+            if (!(viikkotavoitetietokanta.haeTamanViikonLenkkiTavoite() == 0)) {
+                lenkkiSwitch.setChecked(true);
+            }
+            if (!(viikkotavoitetietokanta.haeTamanViikonSaliTavoite() == 0)) {
+                saliSwitch.setChecked(true);
+            }
         }
-        if (!(viikkotavoitetietokanta.haeTamanViikonSaliTavoite() == 0)) {
-            saliSwitch.setChecked(true);
-        }
+
         //Jos lenkki- tai saliSwitcheja ei ole checkattu, estetaan kayttajaa kirjoittamasta niihin lomakkeisiinkaan mitaan.
         if (!saliSwitch.isChecked()) {
             sali.setEnabled(false);

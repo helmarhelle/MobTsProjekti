@@ -17,7 +17,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 
 /**
- * <p>Viikonedistymistä aktiviteettia ajava luokka</p>
+ * <p>Viikonedistymista aktiviteettia ajava luokka</p>
  * @author Helmar
  * @version 16.12.2021
  */
@@ -55,7 +55,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         ArrayList<Float> juoksuSaavutukset = new ArrayList<>();
 
         /**
-         * <p>Tarkistaa onko saavutuksissa olevat arvot käytettäviä graafissa ja lisää ne arraylistiin</p>
+         * <p>Tarkistaa onko saavutuksissa olevat arvot kaytettavia graafissa ja lisää ne arraylistiin</p>
          */
         int i = 0;
         //Testaa unen
@@ -128,7 +128,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
                 i++;
             }
         }
-        /** <p>Tekee graafeja hyödyntäen edellisiä try catch lauseista saatuja arraylistejä. Lenkki ja sali kohdassa piilottaa niihin liittyvät graafit ja tekstit</p>
+        /** <p>Tekee graafeja hyodyntaen edellisia try catch lauseista saatuja arraylisteja. Lenkki ja sali kohdassa piilottaa niihin liittyvät graafit ja tekstit</p>
          */
         //Graafi unen seurannalle
         GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -296,7 +296,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
                 saliTeksti1.setVisibility(View.GONE);
             }
 
-        /**<p>Laskee yhteen arvot tekstejä varten </p>
+        /**<p>Laskee yhteen arvot teksteja varten </p>
          */
         Uni = uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)+ uniSaavutukset.get(6);
         Kavely = kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5) + kavelySaavutukset.get(6);

@@ -16,6 +16,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
+/**
+ * <p>Viikonedistymistä aktiviteettia ajava luokka</p>
+ * @author Helmar
+ * @version 16.12.2021
+ */
+
 public class ViikonEdistyminen extends AppCompatActivity {
     Viikkotavoitetietokanta vtt;
     Paivalomaketietokanta plt;
@@ -48,8 +54,11 @@ public class ViikonEdistyminen extends AppCompatActivity {
         ArrayList<Integer> saliSaavutukset = new ArrayList<>();
         ArrayList<Float> juoksuSaavutukset = new ArrayList<>();
 
-
+        /**
+         * <p>Tarkistaa onko saavutuksissa olevat arvot käytettäviä graafissa ja lisää ne arraylistiin</p>
+         */
         int i = 0;
+        //Testaa unen
         try {
             do {
                 uniSaavutukset.add(plt.haeTamanViikonSaavutukset("uni", ViikonEdistyminen.this).get(i));
@@ -119,7 +128,9 @@ public class ViikonEdistyminen extends AppCompatActivity {
                 i++;
             }
         }
-
+        /** <p>Tekee graafeja hyödyntäen edellisiä try catch lauseista saatuja arraylistejä. Lenkki ja sali kohdassa piilottaa niihin liittyvät graafit ja tekstit</p>
+         */
+        //Graafi unen seurannalle
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
@@ -148,7 +159,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         graph.addSeries(series2);
         series2.setColor(Color.RED);
 
-
+        //Graafi kavelyn seurannalle
         GraphView graph1 = (GraphView) findViewById(R.id.graph1);
         LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
@@ -178,7 +189,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         series4.setColor(Color.RED);
 
 
-
+        //Graafi ulkona syömisen seurannalle
         GraphView graph2 = (GraphView) findViewById(R.id.graph2);
         LineGraphSeries<DataPoint> series5 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
@@ -208,7 +219,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         series6.setColor(Color.RED);
 
 
-
+        //Graafi juoksun seurannalle, joka katoaa riippuen käyttäjän inputista
         GraphView graph3 = (GraphView) findViewById(R.id.graph3);
         TextView juoksuteksti =  findViewById(R.id.Lenkki);
         TextView lenkkiTeksti = findViewById(R.id.Lenkki1);
@@ -216,17 +227,17 @@ public class ViikonEdistyminen extends AppCompatActivity {
         if (vtt.haeTamanViikonLenkkiTavoite()>0){
         LineGraphSeries<DataPoint> series7 = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0,0),
-                new DataPoint(1, Juoksumuuttuja),
-                new DataPoint(2, Juoksumuuttuja*2),
-                new DataPoint(3, Juoksumuuttuja*3),
-                new DataPoint(4, Juoksumuuttuja*4),
-                new DataPoint(5, Juoksumuuttuja*5),
-                new DataPoint(6, Juoksumuuttuja*6),
-                new DataPoint(7, Juoksumuuttuja*7),
+                new DataPoint(1, Juoksumuuttuja/7),
+                new DataPoint(2, Juoksumuuttuja*2/7),
+                new DataPoint(3, Juoksumuuttuja*3/7),
+                new DataPoint(4, Juoksumuuttuja*4/7),
+                new DataPoint(5, Juoksumuuttuja*5/7),
+                new DataPoint(6, Juoksumuuttuja*6/7),
+                new DataPoint(7, Juoksumuuttuja),
 
         });
         graph3.addSeries(series7);
-        lenkkiTeksti.setText("Olet juossut: " + Lenkki + "kilometriä ja tavoitteesi on " +vtt.haeTamanViikonLenkkiTavoite()+ "kilometriä.");
+        lenkkiTeksti.setText("Olet juossut " + Lenkki + " kilometriä ja tavoitteesi on " +vtt.haeTamanViikonLenkkiTavoite()+ " kilometriä.");
         }else {
             graph3.setVisibility(View.GONE);
             juoksuteksti.setVisibility(View.GONE);
@@ -247,7 +258,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         graph3.addSeries(series8);
         series8.setColor(Color.RED);
 
-
+        //Graafi salikäynnin seurannalle, joka katoaa riippuen käyttäjän inputista
         GraphView graph4 = (GraphView) findViewById(R.id.graph4);
         TextView saliteksti =  findViewById(R.id.Sali);
         TextView saliTeksti1 = findViewById(R.id.Sali1);
@@ -255,13 +266,13 @@ public class ViikonEdistyminen extends AppCompatActivity {
         if (vtt.haeTamanViikonSaliTavoite()>0) {
             LineGraphSeries<DataPoint> series9 = new LineGraphSeries<>(new DataPoint[]{
                     new DataPoint(0, 0),
-                    new DataPoint(1, Salimuuttuja),
-                    new DataPoint(2, Salimuuttuja*2),
-                    new DataPoint(3, Salimuuttuja*3),
-                    new DataPoint(4, Salimuuttuja*4),
-                    new DataPoint(5, Salimuuttuja*5),
-                    new DataPoint(6, Salimuuttuja*6),
-                    new DataPoint(7, Salimuuttuja*7),
+                    new DataPoint(1, Salimuuttuja/7),
+                    new DataPoint(2, Salimuuttuja*2/7),
+                    new DataPoint(3, Salimuuttuja*3/7),
+                    new DataPoint(4, Salimuuttuja*4/7),
+                    new DataPoint(5, Salimuuttuja*5/7),
+                    new DataPoint(6, Salimuuttuja*6/7),
+                    new DataPoint(7, Salimuuttuja),
             });
             graph4.addSeries(series9);
 
@@ -277,23 +288,26 @@ public class ViikonEdistyminen extends AppCompatActivity {
                     new DataPoint(7, saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5) + saliSaavutukset.get(6) )
             });
             graph4.addSeries(series10);
-            series9.setColor(Color.RED);
-            saliTeksti1.setText("Olet käynyt " +Sali+ " kertaa salillä, kun tavoitteesi on " + vtt.haeTamanViikonSaliTavoite() + " kertaa.");
+            series10.setColor(Color.RED);
+            saliTeksti1.setText("Olet käynyt " +Sali+ " kertaa salilla, kun tavoitteesi on " + vtt.haeTamanViikonSaliTavoite() + " kertaa.");
         }else{
                 graph4.setVisibility(View.GONE);
                 saliteksti.setVisibility(View.GONE);
                 saliTeksti1.setVisibility(View.GONE);
             }
 
+        /**<p>Laskee yhteen arvot tekstejä varten </p>
+         */
         Uni = uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)+ uniSaavutukset.get(6);
         Kavely = kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5) + kavelySaavutukset.get(6);
         Syo = syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4) + syoSaavutukset.get(5) + syoSaavutukset.get(6);
         Lenkki = juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4) + juoksuSaavutukset.get(5) + juoksuSaavutukset.get(6);
         Sali = saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5) + saliSaavutukset.get(6);
 
-
+        /**<p>Asettaa tekstin edistymisaktiviteettiin </p>
+         */
         TextView textView = findViewById(R.id.EdistyminenTeksti);
-        textView.setText("Tällä viikolla olet nukkunut: " + Uni + "ja tavoitteesi oli" + vtt.haeTamanViikonUniTavoite() + ".\n Kävelit: " + Kavely + "kilometrtiä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ "kilometriä\nUlkona olet syönyt" + Syo +" kertaa, kun tavoitteesi on "+ vtt.haeTamanViikonUlkonasyonnitTavoite());
+        textView.setText("Tällä viikolla olet nukkunut " + Uni + " tuntia ja tavoitteesi oli " + vtt.haeTamanViikonUniTavoite() + " tuntia päivässä.\n Olet kävellyt " + Kavely + " kilometrtiä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ " kilometriä\nUlkona olet syönyt " + Syo +" kertaa, kun tavoitteesi on pysyä alle "+ vtt.haeTamanViikonUlkonasyonnitTavoite() + " kerrassa.");
 
     }
 }

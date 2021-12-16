@@ -2,7 +2,7 @@ package fi.helmarhelle.mobtsprojekti;
 
 
 /**
- * <p>Luokka paivittain taytettävien lomakkeiden luomiseksi oliomuotoon, jotka voidaan tallentaa Paivalomake-tietokantaan.</p>
+ * <p>Luokka paivittain taytettavien lomakkeiden luomiseksi oliomuotoon, jotka voidaan tallentaa Paivalomake-tietokantaan.</p>
  * @author Reima
  * @since 9.12.2021
  * @version 14.12.2021

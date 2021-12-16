@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+/**
+ * <p>Aloitusnaytto, joka nayttaa sovelluksen logon 0.75 sekuntia kun sovelluksen kaynnistaa.</p>
+ * @author Helmar
+ * @since 10.12.2021
+ */
 public class Aloitusnaytto extends AppCompatActivity {
     Handler h = new Handler();
     @Override

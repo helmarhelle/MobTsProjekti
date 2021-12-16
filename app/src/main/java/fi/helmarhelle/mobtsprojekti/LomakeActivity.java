@@ -133,7 +133,7 @@ public class LomakeActivity extends AppCompatActivity {
                     tallennusButton.setEnabled(false);
                 }
             } else {
-                Toast.makeText(LomakeActivity.this, "Tietojen tallennus epäonnistui. Raportoi bugista kehittäjälle", Toast.LENGTH_LONG).show();
+                Toast.makeText(LomakeActivity.this, "Tietojen tallennus epäonnistui. Tarkista että syötit oikeanlaiset luvut pakollisiin kohtiin.", Toast.LENGTH_LONG).show();
             }
         });
 

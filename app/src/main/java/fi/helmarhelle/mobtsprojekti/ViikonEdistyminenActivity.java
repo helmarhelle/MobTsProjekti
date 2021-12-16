@@ -312,7 +312,6 @@ public class ViikonEdistyminenActivity extends AppCompatActivity {
 
         //Tekee textviewin edistymisen seurannalle
         TextView textView = findViewById(R.id.EdistyminenTeksti);
-        textView.setText("Tällä viikolla olet nukkunut " + Uni + " tuntia ja tavoitteesi oli " + vtt.haeTamanViikonUniTavoite() + " tuntia päivässä.\n Olet kävellyt " + Kavely + " kilometrtiä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ " kilometriä\nUlkona olet syönyt " + Syo +" kertaa, kun tavoitteesi on pysyä alle "+ vtt.haeTamanViikonUlkonasyonnitTavoite() + " kerrassa.");
-
+        textView.setText("Tällä viikolla olet nukkunut " + Uni + " tuntia. Tavoitteesi on " + vtt.haeTamanViikonUniTavoite() + " tuntia päivässä.\n Olet kävellyt " + Kavely + " kilometriä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ " kilometriä\nUlkona olet syönyt " + Syo +" kertaa, kun tavoitteesi on pysyä "+ vtt.haeTamanViikonUlkonasyonnitTavoite() + " kerrassa.");
     }
 }

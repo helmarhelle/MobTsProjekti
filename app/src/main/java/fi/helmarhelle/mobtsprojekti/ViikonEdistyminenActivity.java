@@ -17,12 +17,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 
 /**
- * <p>Viikonedistymista aktiviteettia ajava luokka</p>
+ * <p>Viikonedistymis aktiviteettia ajava luokka</p>
  * @author Helmar
  * @version 16.12.2021
  */
 
-public class ViikonEdistyminen extends AppCompatActivity {
+public class ViikonEdistyminenActivity extends AppCompatActivity {
     Viikkotavoitetietokanta vtt;
     Paivalomaketietokanta plt;
     float Unimuuttuja;
@@ -36,13 +36,17 @@ public class ViikonEdistyminen extends AppCompatActivity {
     float Lenkki;
     int Sali;
 
-
+    /**
+     * <p>OnCreatella ajaa viikonedistyminen aktiviteetin, joka luo tarkistaa saavutuksista saadut arvot.</p>
+     * <p>Tekee graafit ja tekstit edistymiselle.</p>
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viikon_edistyminen);
-        vtt = new Viikkotavoitetietokanta(ViikonEdistyminen.this);
-        plt = new Paivalomaketietokanta(ViikonEdistyminen.this);
+        vtt = new Viikkotavoitetietokanta(ViikonEdistyminenActivity.this);
+        plt = new Paivalomaketietokanta(ViikonEdistyminenActivity.this);
         Unimuuttuja = vtt.haeTamanViikonUniTavoite();
         Kavelymuuttuja = vtt.haeTamanViikonLiikuntaTavoite();
         Syontimuuttuja = vtt.haeTamanViikonUlkonasyonnitTavoite();
@@ -54,14 +58,14 @@ public class ViikonEdistyminen extends AppCompatActivity {
         ArrayList<Integer> saliSaavutukset = new ArrayList<>();
         ArrayList<Float> juoksuSaavutukset = new ArrayList<>();
 
-        /**
-         * <p>Tarkistaa onko saavutuksissa olevat arvot kaytettavia graafissa ja lisää ne arraylistiin</p>
-         */
+
+         //Tarkistaa onko saavutuksissa olevat arvot kaytettavia graafissa ja lisää ne arraylistiin</p>
+
         int i = 0;
         //Testaa unen
         try {
             do {
-                uniSaavutukset.add(plt.haeTamanViikonSaavutukset("uni", ViikonEdistyminen.this).get(i));
+                uniSaavutukset.add(plt.haeTamanViikonSaavutukset("uni", ViikonEdistyminenActivity.this).get(i));
                 i++;
             } while (i<=6);
 
@@ -73,9 +77,10 @@ public class ViikonEdistyminen extends AppCompatActivity {
             }
         }
         i=0;
+        //testaa kävely saavutukset
         try {
             do {
-                kavelySaavutukset.add(plt.haeTamanViikonSaavutukset("liikunta", ViikonEdistyminen.this).get(i));
+                kavelySaavutukset.add(plt.haeTamanViikonSaavutukset("liikunta", ViikonEdistyminenActivity.this).get(i));
                 i++;
             } while (i<=6);
 
@@ -87,9 +92,10 @@ public class ViikonEdistyminen extends AppCompatActivity {
             }
         }
         i=0;
+        //testaa ruoka saavutukset
         try {
             do {
-                syoSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("syonti", ViikonEdistyminen.this).get(i)));
+                syoSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("syonti", ViikonEdistyminenActivity.this).get(i)));
                 i++;
             } while (i<=6);
 
@@ -103,7 +109,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         i=0;
         try {
             do {
-                juoksuSaavutukset.add(plt.haeTamanViikonSaavutukset("lenkki", ViikonEdistyminen.this).get(i));
+                juoksuSaavutukset.add(plt.haeTamanViikonSaavutukset("lenkki", ViikonEdistyminenActivity.this).get(i));
                 i++;
             } while (i<=6);
 
@@ -117,7 +123,7 @@ public class ViikonEdistyminen extends AppCompatActivity {
         i=0;
         try {
             do {
-                saliSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("sali", ViikonEdistyminen.this).get(i)));
+                saliSaavutukset.add(Math.round(plt.haeTamanViikonSaavutukset("sali", ViikonEdistyminenActivity.this).get(i)));
                 i++;
             } while (i<=6);
 
@@ -128,8 +134,8 @@ public class ViikonEdistyminen extends AppCompatActivity {
                 i++;
             }
         }
-        /** <p>Tekee graafeja hyodyntaen edellisia try catch lauseista saatuja arraylisteja. Lenkki ja sali kohdassa piilottaa niihin liittyvät graafit ja tekstit</p>
-         */
+         //Tekee graafeja hyodyntaen edellisia try catch lauseista saatuja arraylisteja. Lenkki ja sali kohdassa piilottaa niihin liittyvät graafit ja tekstit
+
         //Graafi unen seurannalle
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
@@ -296,16 +302,15 @@ public class ViikonEdistyminen extends AppCompatActivity {
                 saliTeksti1.setVisibility(View.GONE);
             }
 
-        /**<p>Laskee yhteen arvot teksteja varten </p>
-         */
+        //Laskee yhteen arvot teksteja varten
+
         Uni = uniSaavutukset.get(0) + uniSaavutukset.get(1) + uniSaavutukset.get(2) + uniSaavutukset.get(3)+ uniSaavutukset.get(4) + uniSaavutukset.get(5)+ uniSaavutukset.get(6);
         Kavely = kavelySaavutukset.get(0) + kavelySaavutukset.get(1) + kavelySaavutukset.get(2) + kavelySaavutukset.get(3) + kavelySaavutukset.get(4) + kavelySaavutukset.get(5) + kavelySaavutukset.get(6);
         Syo = syoSaavutukset.get(0) + syoSaavutukset.get(1) + syoSaavutukset.get(2) + syoSaavutukset.get(3) + syoSaavutukset.get(4) + syoSaavutukset.get(5) + syoSaavutukset.get(6);
         Lenkki = juoksuSaavutukset.get(0) + juoksuSaavutukset.get(1) + juoksuSaavutukset.get(2) + juoksuSaavutukset.get(3) + juoksuSaavutukset.get(4) + juoksuSaavutukset.get(5) + juoksuSaavutukset.get(6);
         Sali = saliSaavutukset.get(0) + saliSaavutukset.get(1) + saliSaavutukset.get(2) + saliSaavutukset.get(3) + saliSaavutukset.get(4) + saliSaavutukset.get(5) + saliSaavutukset.get(6);
 
-        /**<p>Asettaa tekstin edistymisaktiviteettiin </p>
-         */
+        //Tekee textviewin edistymisen seurannalle
         TextView textView = findViewById(R.id.EdistyminenTeksti);
         textView.setText("Tällä viikolla olet nukkunut " + Uni + " tuntia ja tavoitteesi oli " + vtt.haeTamanViikonUniTavoite() + " tuntia päivässä.\n Olet kävellyt " + Kavely + " kilometrtiä ja tavoitteesi on: "+ vtt.haeTamanViikonLiikuntaTavoite()+ " kilometriä\nUlkona olet syönyt " + Syo +" kertaa, kun tavoitteesi on pysyä alle "+ vtt.haeTamanViikonUlkonasyonnitTavoite() + " kerrassa.");
 

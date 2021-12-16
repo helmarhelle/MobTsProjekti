@@ -3,7 +3,6 @@ package fi.helmarhelle.mobtsprojekti;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -150,7 +149,7 @@ public class LomakeActivity extends AppCompatActivity {
         });
 
         edistymisButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LomakeActivity.this, ViikonEdistyminen.class);
+            Intent intent = new Intent(LomakeActivity.this, ViikonEdistyminenActivity.class);
             startActivity(intent);
         });
 

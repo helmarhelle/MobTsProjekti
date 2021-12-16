@@ -34,7 +34,7 @@
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".ViikonEdistyminen"
+            android:name=".ViikonEdistyminenActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
 
